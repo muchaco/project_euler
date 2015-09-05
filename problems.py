@@ -319,7 +319,7 @@ def problem23():
     abundant = list()
     result = set()
     for i in xrange(1, 28124):
-        if not is_num_sum_of_two_in_list(i, abundant):
+        if not is_num_sum_of_two_in_list(i, abundant, False):
             result.add(i)
         if is_abundant_num(i):
             abundant.append(i)

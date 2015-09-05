@@ -160,7 +160,7 @@ is_perfect_num = lambda i: sum_of_divisors(i, False) == i
 is_deficient_num = lambda i: sum_of_divisors(i, False) < i
 
 
-def is_num_sum_of_two_in_list(n, lst):
+def is_num_sum_of_two_in_list(n, lst, distinct_values=True):
     lst.sort()
     length = len(lst)
     if length < 2:
@@ -175,6 +175,10 @@ def is_num_sum_of_two_in_list(n, lst):
             j -= 1
         else:
             i += 1
+    if not distinct_values:
+        actual_sum = lst[i] + lst[j]
+        if actual_sum == n:
+            return True
     return False
 
 
