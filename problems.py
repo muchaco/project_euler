@@ -36,6 +36,10 @@ def problem4():
     return str(max(palindromes))
 
 
+# TODO: problem5()
+# TODO: problem6()
+
+
 def problem7():
     # By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
     # What is the 10001st prime number?
@@ -75,6 +79,10 @@ def problem9():
                         return str(a*b*c)
 
 
+# TODO: problem10()
+
+
+# TODO: description needed
 def problem11():
     matrix = []
     one_line = []
@@ -248,6 +256,7 @@ def problem17():
     return str(sum([len(number_to_string(i)) for i in xrange(1, 1001)]))
 
 
+# TODO: description needed
 def problem18():
     return max_path_sum("p018_triangle.txt")
 
@@ -276,10 +285,15 @@ def problem19():
     return str(counter)
 
 
+# TODO: problem20()
+
+
+# TODO: description needed
 def problem21():
     return str(sum([i if is_amicable(i) else 0 for i in xrange(0, 10001)]))
 
 
+# TODO: description needed
 def problem22():
     def score_of_name(name, scores):
         score = 0
@@ -327,6 +341,7 @@ def problem25():
     return str(len(f))
 
 
+# TODO: description needed
 def problem67():
     return max_path_sum("p067_triangle.txt")
 
