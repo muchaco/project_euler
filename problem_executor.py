@@ -47,6 +47,10 @@ class UnitTest(TestCase):
         self.assertEquals(sum_of_divisors(10, True), 18)
         self.assertEquals(sum_of_divisors(28, True), 56)
         self.assertEquals(sum_of_divisors(28, False), 28)
+        self.assertEquals(sum_of_divisors(6, False), 6)
+        self.assertEquals(sum_of_divisors(4, False), 3)
+        self.assertEquals(sum_of_divisors(12, False), 16)
+
 
     def test_sum_of_digits(self):
         self.assertEquals(sum_of_digits(12), 3)
@@ -64,6 +68,45 @@ class UnitTest(TestCase):
         self.assertEquals(len(number_to_string(100)), len("onehundred"))
         self.assertEquals(len(number_to_string(342)), 23)
         self.assertEquals(len(number_to_string(115)), 20)
+
+    def test_is_num_sum_of_two_in_list(self):
+        self.assertTrue(is_num_sum_of_two_in_list(5, [1, 3, 4]))
+        self.assertFalse(is_num_sum_of_two_in_list(12, [1, 3, 4]))
+        self.assertTrue(is_num_sum_of_two_in_list(100, [50, 25, 25, 50]))
+        self.assertFalse(is_num_sum_of_two_in_list(100, [50, 25, 25]))
+        self.assertFalse(is_num_sum_of_two_in_list(2, [1, 2, 3]))
+        self.assertFalse(is_num_sum_of_two_in_list(2, [1, 2, 3, 3, -2]))
+        self.assertTrue(is_num_sum_of_two_in_list(5, [1, 1, 1, 1, 4, 3]))
+        self.assertTrue(is_num_sum_of_two_in_list(32, [10, 3, 4, 10, 8, 8, 76, 9, 12, 22, 23, 26]))
+
+    def test_regression(self):
+        self.assertEquals(problem1(), "233168")
+        self.assertEquals(problem2(), "4613732")
+        self.assertEquals(problem3(), "6857")
+        self.assertEquals(problem4(), "906609")
+        #self.assertEquals(problem5(), "232792560")
+        #self.assertEquals(problem6(), "25164150")
+        self.assertEquals(problem7(), "104743")
+        self.assertEquals(problem8(), "23514624000")
+        self.assertEquals(problem9(), "31875000")
+        #self.assertEquals(problem10(), "142913828922")
+        self.assertEquals(problem11(), "70600674")
+        self.assertEquals(problem12(), "76576500")
+        self.assertEquals(problem13(), "5537376230")
+        self.assertEquals(problem14(), "837799")
+        self.assertEquals(problem15(), "137846528820")
+        self.assertEquals(problem16(), "1366")
+        self.assertEquals(problem17(), "21124")
+        self.assertEquals(problem18(), "1074")
+        self.assertEquals(problem19(), "171")
+        #self.assertEquals(problem20(), "648")
+        self.assertEquals(problem21(), "31626")
+        self.assertEquals(problem22(), "871198282")
+        self.assertEquals(problem23(), "4179871")
+        self.assertEquals(problem24(), "2783915460")
+        self.assertEquals(problem25(), "4782")
+        self.assertEquals(problem67(), "7273")
+        #self.assertEquals(problem26(), "983")
 
 
 def sum_of_multiples(list_of_bases, max_number):
@@ -151,7 +194,7 @@ def divisors(n, include_self):
     _set = {1}
     if include_self:
         _set.add(n)
-    for i in xrange(2, int(n**0.5) + 1):
+    for i in xrange(2, int(math.sqrt(n)) + 1):
         if n % i == 0:
             j = n/i
             if j < i:
@@ -241,13 +284,22 @@ def is_num_sum_of_two_in_list(n, lst):
             i += 1
     return False
 
-missing = {5, 6, 10, 20}
+
+def max_path_sum(file):
+    with open(file) as f:
+        adj = f.read().split("\n")
+        adj = [[int(j) for j in i.split(" ")] + [0] for i in adj]
+    # parse_triangle(input, adj)
+    for i in xrange(1, len(adj)):
+        for j in xrange(i+1):
+            adj[i][j] += max(adj[i-1][j], adj[i-1][j-1])
+    return str(max(adj[len(adj)-1]))
 
 
 def problem1():
     # If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these
     # multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
-    return str(sum_of_multiples([3, 5], 10))
+    return str(sum_of_multiples([3, 5], 1000))
 
 
 def problem2():
@@ -459,7 +511,7 @@ def problem13():
             20849603980134001723930671666823555245252804609722,
             53503534226472524250874054075591789781264330331690]
     _sum = str(sum(nums))
-    return _sum[:11]
+    return _sum[:10]
 
 
 def problem14():
@@ -488,6 +540,10 @@ def problem17():
     # If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words,
     # how many letters would be used?
     return str(sum([len(number_to_string(i)) for i in xrange(1, 1001)]))
+
+
+def problem18():
+    return max_path_sum("p018_triangle.txt")
 
 
 def problem19():
@@ -539,21 +595,22 @@ def problem22():
 
 
 def problem23():
+    # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
     abundant = list()
-    lst = list()
+    result = set()
     for i in xrange(1, 28124):
         if not is_num_sum_of_two_in_list(i, abundant):
-            lst.append(i)
+            result.add(i)
         if is_abundant_num(i):
             abundant.append(i)
-    return str(sum(lst))
+    return str(sum(result))
 
 
 def problem24():
     # The lexicographic permutations of 0, 1 and 2 are: 012   021   102   120   201   210
     # What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
     from itertools import permutations
-    return str(list(permutations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))[10**6-1])
+    return str("".join(list(permutations("0123456789"))[10**6-1]))
 
 
 def problem25():
@@ -564,13 +621,17 @@ def problem25():
     return str(len(f))
 
 
+def problem67():
+    return max_path_sum("p067_triangle.txt")
+
+
 def execute_problem(ith):
-    if ith in missing:
-        print "This problem isn't solved yet"
-        return
     t0 = time()
-    print "The answer is:   " + globals()['problem' + str(ith)]()
-    print "Execution time:  " + str(time() - t0) + " sec"
+    try:
+        print "The answer is:   " + globals()['problem' + str(ith)]()
+        print "Execution time:  " + str(time() - t0) + " sec"
+    except KeyError:
+        print "This problem hasn't been resolved yet"
 
 if __name__ == "__main__":
-    execute_problem(24)
+    execute_problem(23)
