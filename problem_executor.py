@@ -528,7 +528,7 @@ def problem22():
 
     alphabet = ["\"", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
                 "t", "u", "v", "w", "x", "y", "z"]
-    with open("names.txt") as f:
+    with open("p022_names.txt") as f:
         line = f.read()
         names = line.split(",")
     names.sort()
