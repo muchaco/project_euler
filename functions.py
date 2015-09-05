@@ -26,6 +26,20 @@ def set_prime_factors_of(number):
         i += 1
     return factors
 
+
+def dict_prime_factors_of(number):
+    factors = {}
+    i = 2
+    while number != 1:
+        while number % i == 0:
+            try:
+                factors[i] += 1
+            except KeyError:
+                factors[i] = 1
+            number /= i
+        i += 1
+    return factors
+
 is_palindrome = lambda word: str(word) == str(word)[::-1]
 
 
@@ -51,35 +65,30 @@ def next_prime(number):
     return number
 
 
-def atlo1(a, b, matrix):
-    try:
-        return matrix[a][b] * matrix[a+1][b-1] * matrix[a+2][b-2] * matrix[a+3][b-3]
-    except IndexError:
-        return 0
-
-
-def atlo2(a, b, matrix):
-    try:
-        return matrix[a][b] * matrix[a+1][b+1] * matrix[a+2][b+2] * matrix[a+3][b+3]
-    except IndexError:
-        return 0
-
-
-def lefele(a, b, matrix):
-    try:
-        return matrix[a][b] * matrix[a+1][b] * matrix[a+2][b] * matrix[a+3][b]
-    except IndexError:
-        return 0
-
-
-def oldal(a, b, matrix):
-    try:
-        return matrix[a][b] * matrix[a][b+1] * matrix[a][b+2] * matrix[a][b+3]
-    except IndexError:
-        return 0
-
-
 def start_from(a, b, matrix):
+    def atlo1(a, b, matrix):
+        try:
+            return matrix[a][b] * matrix[a+1][b-1] * matrix[a+2][b-2] * matrix[a+3][b-3]
+        except IndexError:
+            return 0
+
+    def atlo2(a, b, matrix):
+        try:
+            return matrix[a][b] * matrix[a+1][b+1] * matrix[a+2][b+2] * matrix[a+3][b+3]
+        except IndexError:
+            return 0
+
+    def lefele(a, b, matrix):
+        try:
+            return matrix[a][b] * matrix[a+1][b] * matrix[a+2][b] * matrix[a+3][b]
+        except IndexError:
+            return 0
+
+    def oldal(a, b, matrix):
+        try:
+            return matrix[a][b] * matrix[a][b+1] * matrix[a][b+2] * matrix[a][b+3]
+        except IndexError:
+            return 0
     return max([oldal(a, b, matrix), atlo1(a, b, matrix), atlo2(a, b, matrix), lefele(a, b, matrix)])
 
 
@@ -191,6 +200,20 @@ def max_path_sum(file):
         for j in xrange(i+1):
             adj[i][j] += max(adj[i-1][j], adj[i-1][j-1])
     return str(max(adj[len(adj)-1]))
+
+
+def get_primes(length, primes):
+    lst = [1]*length
+    for i in xrange(2, length/2+1):
+        if lst[i] == 0:
+            continue
+        for j in xrange(i*2, length, i):
+            lst[j] = 0
+    for i in xrange(length):
+        if lst[i]:
+            primes.append(i)
+    primes.pop(1)
+    primes.pop(0)
 
 if __name__ == "__main__":
     pass

@@ -36,8 +36,28 @@ def problem4():
     return str(max(palindromes))
 
 
-# TODO: problem5()
-# TODO: problem6()
+def problem5():
+    # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+    lst = list()
+    final_factors = {}
+    for i in xrange(2, 21):
+        lst.append(dict_prime_factors_of(i))
+    for i in lst:
+        for j in i.keys():
+            try:
+                if final_factors[j] < i[j]:
+                    final_factors[j] = i[j]
+            except KeyError:
+                final_factors[j] = i[j]
+    product = 1
+    for i in final_factors.keys():
+        product *= i**final_factors[i]
+    return str(product)
+
+
+def problem6():
+    #Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+    return str(sum([i for i in xrange(1, 101)])**2 - sum([i**2 for i in xrange(1, 101)]))
 
 
 def problem7():
@@ -79,7 +99,11 @@ def problem9():
                         return str(a*b*c)
 
 
-# TODO: problem10()
+def problem10():
+    # Find the sum of all the primes below two million.
+    primes = []
+    get_primes(2*10**6 + 1, primes)
+    return str(sum(primes))
 
 
 # TODO: description needed

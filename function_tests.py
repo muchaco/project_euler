@@ -77,5 +77,10 @@ class UnitTest(TestCase):
         self.assertTrue(is_num_sum_of_two_in_list(5, [1, 1, 1, 1, 4, 3]))
         self.assertTrue(is_num_sum_of_two_in_list(32, [10, 3, 4, 10, 8, 8, 76, 9, 12, 22, 23, 26]))
 
+    def test_dict_prime_factors_of(self):
+        self.assertEquals(dict_prime_factors_of(34), {2: 1, 17: 1})
+        self.assertEquals(dict_prime_factors_of(35), {5: 1, 7: 1})
+        self.assertEquals(dict_prime_factors_of(350), {2: 1, 5: 2, 7: 1})
+
 if __name__ == "__main__":
     pass
