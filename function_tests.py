@@ -19,8 +19,7 @@ class UnitTest(TestCase):
         self.assertEquals(ith_fibonacci(10), 55)
 
     def test_prime_factors(self):
-        self.assertEquals(set_prime_factors_of(13195), {5, 7, 13, 29})
-        #self.assertEquals(dict_prime_factors_of(235432125), {59: 1, 3: 2, 5: 3, 3547: 1})
+        self.assertEquals(Primes.set_prime_factors_of(13195), {5, 7, 13, 29})
 
     def test_is_palindrome(self):
         self.assertTrue(is_palindrome(9009), True)
@@ -28,11 +27,11 @@ class UnitTest(TestCase):
         self.assertTrue(is_palindrome(1), True)
 
     def test_is_prime(self):
-        self.assertFalse(is_prime(9))
-        self.assertFalse(is_prime(4))
-        self.assertTrue(is_prime(2))
-        self.assertTrue(is_prime(23))
-        self.assertTrue(is_prime(41))
+        self.assertFalse(Primes._is_prime(9))
+        self.assertFalse(Primes._is_prime(4))
+        self.assertTrue(Primes._is_prime(2))
+        self.assertTrue(Primes._is_prime(23))
+        self.assertTrue(Primes._is_prime(41))
 
     def test_num_of_divisors(self):
         self.assertEquals(num_of_divisors(15, True), 4)
@@ -55,6 +54,16 @@ class UnitTest(TestCase):
         self.assertEquals(sum_of_digits(123), 6)
         self.assertEquals(sum_of_digits(1234), 10)
         self.assertEquals(sum_of_digits(555112002310), 25)
+        self.assertEquals(sum_of_digits(1634, lambda n: n**4), 1634)
+        self.assertEquals(sum_of_digits(8208, lambda n: n**4), 8208)
+        self.assertEquals(sum_of_digits(9474, lambda n: n**4), 9474)
+        self.assertEquals(sum_of_digits(145, factorial), 145)
+
+    def test_circ_number(self):
+        self.assertEquals(circ_number(145), {145, 451, 514})
+        self.assertEquals(circ_number(1456), {1456, 4561, 5614, 6145})
+        self.assertEquals(circ_number(14541), {14541, 45411, 54114, 41145, 11454})
+        self.assertEquals(circ_number(11), {11})
 
     def test_write_down_number(self):
         self.assertEquals(len(number_to_string(2)), 3)
@@ -78,9 +87,10 @@ class UnitTest(TestCase):
         self.assertTrue(is_num_sum_of_two_in_list(32, [10, 3, 4, 10, 8, 8, 76, 9, 12, 22, 23, 26]))
 
     def test_dict_prime_factors_of(self):
-        self.assertEquals(dict_prime_factors_of(34), {2: 1, 17: 1})
-        self.assertEquals(dict_prime_factors_of(35), {5: 1, 7: 1})
-        self.assertEquals(dict_prime_factors_of(350), {2: 1, 5: 2, 7: 1})
+        self.assertEquals(Primes.dict_prime_factors_of(34), {2: 1, 17: 1})
+        self.assertEquals(Primes.dict_prime_factors_of(35), {5: 1, 7: 1})
+        self.assertEquals(Primes.dict_prime_factors_of(350), {2: 1, 5: 2, 7: 1})
+        self.assertEquals(Primes.dict_prime_factors_of(235432125), {59: 1, 3: 2, 5: 3, 3547: 1})
 
     def test_factorial(self):
         self.assertEquals(factorial(5), 120)

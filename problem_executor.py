@@ -12,4 +12,4 @@ def execute_problem(ith):
         print "This problem hasn't been resolved yet"
 
 if __name__ == "__main__":
-    execute_problem(41)
+    execute_problem(37)

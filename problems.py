@@ -22,7 +22,7 @@ def problem2():
 def problem3():
     # The prime factors of 13195 are 5, 7, 13 and 29.
     # What is the largest prime factor of the number 600851475143 ?
-    return max(set_prime_factors_of(600851475143))
+    return max(Primes.set_prime_factors_of(600851475143))
 
 
 def problem4():
@@ -41,7 +41,7 @@ def problem5():
     lst = list()
     final_factors = {}
     for i in xrange(2, 21):
-        lst.append(dict_prime_factors_of(i))
+        lst.append(Primes.dict_prime_factors_of(i))
     for i in lst:
         for j in i.keys():
             try:
@@ -63,7 +63,7 @@ def problem6():
 def problem7():
     # By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
     # What is the 10001st prime number?
-    return ith_prime(10001)
+    return Primes._ith_prime(10001)
 
 
 def problem8():
@@ -101,9 +101,8 @@ def problem9():
 
 def problem10():
     # Find the sum of all the primes below two million.
-    primes = []
-    get_primes(2*10**6 + 1, primes)
-    return sum(primes)
+    prime_obj = Primes(2*10**6+1)
+    return sum(prime_obj.get_primes())
 
 
 def problem11():
@@ -390,7 +389,7 @@ def problem27():
     for i in xrange(-1000, 1001):
         for j in xrange(-1000, 1001):
             k = 0
-            while is_prime(quadratic_expression(i, j)(k)):
+            while Primes._is_prime(quadratic_expression(i, j)(k)):
                 k += 1
             if k > maximum:
                 maximum = k
@@ -428,7 +427,7 @@ def problem30():
     # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
     _sum = 0
     for i in xrange(3, 1000000):
-        fact_sum = sum_of_digits(i, 5)
+        fact_sum = sum_of_digits(i, lambda n: n**5)
         if i == fact_sum:
             _sum += fact_sum
     return _sum
@@ -480,13 +479,87 @@ def problem32():
     return sum(_sum)
 
 
+def problem33():
+    # The fraction 49/98 is a curious fraction, as an inexperienced mathematician in attempting to simplify it may
+    # incorrectly believe that 49/98 = 4/8, which is correct, is obtained by cancelling the 9s.
+    # We shall consider fractions like, 30/50 = 3/5, to be trivial examples.
+    # There are exactly four non-trivial examples of this type of fraction, less than one in value, and containing two
+    # digits in the numerator and denominator.
+    # If the product of these four fractions is given in its lowest common terms, find the value of the denominator.
+    import fractions
+    fv = lambda x, y: float(str(x)[1]) if str(x)[0] == y else float(str(x)[0])
+    __i = 1
+    __j = 1
+    for i in xrange(10, 100):
+        for j in xrange(i+1, 100):
+            _i = set(str(i))
+            _j = set(str(j))
+            if len(_i) != 2:
+                continue
+            if len(_j) != 2:
+                continue
+            _set = _i & _j
+            if len(_set) == 1:
+                common = _set.pop()
+                try:
+                    if i/float(j) == fv(i, common)/fv(j, common) and common != '0':
+                        __i *= i
+                        __j *= j
+                except ZeroDivisionError:
+                    pass
+    return __j/fractions.gcd(__i, __j)
+
+
+def problem34():
+    # Find the sum of all numbers which are equal to the sum of the factorial of their digits.
+    factorials = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+    return sum([i if i == sum_of_digits(i, lambda n: factorials[n]) else 0 for i in xrange(3, 10000000)])
+
+
+def problem35():
+    # How many circular primes are there below one million?
+    circ_primes = set([])
+    prime_obj = Primes(10**6)
+    for i in prime_obj.get_primes():
+        if i in circ_primes:
+            continue
+        temp_set = circ_number(i)
+        if all(prime_obj.is_prime(j) for j in temp_set):
+            circ_primes |= temp_set
+    return len(circ_primes)
+
+
+def problem36():
+    # Find the sum of all numbers, less than one million, which are palindromic in base 10 and base 2.
+    _sum = 0
+    decimal_palindromes = []
+    for i in xrange(1, 1000000, 2):
+        if is_palindrome(i):
+            decimal_palindromes.append(i)
+    for i in decimal_palindromes:
+        if is_palindrome(dec_to_bin((i))):
+            _sum += i
+    return _sum
+
+def problem37():
+    prime_obj = Primes(380)
+    truncatable_primes = set([])
+    i = 5
+    while len(truncatable_primes) != 11:
+        act_prime = prime_obj.ith_prime(i)
+        if prime_obj.is_truncatable_prime(act_prime):
+            truncatable_primes.add(act_prime)
+        i += 1
+    return sum(truncatable_primes)
+
+
 def problem41():
     # What is the largest n-digit pandigital prime that exists?
     lst = []
     for i in xrange(2, 10):
         lst += permutations(default_pandigital(i))
     for i in range(len(lst)-1, -1, -1):
-        if is_prime(int(lst[i])):
+        if Primes._is_prime(int(lst[i])):
             return int(lst[i])
 
 

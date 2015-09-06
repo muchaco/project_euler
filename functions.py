@@ -16,53 +16,7 @@ def ith_fibonacci(i):
     return nums[i-1]
 
 
-def set_prime_factors_of(number):
-    factors = set()
-    i = 2
-    while number != 1:
-        while number % i == 0:
-            factors.add(i)
-            number /= i
-        i += 1
-    return factors
-
-
-def dict_prime_factors_of(number):
-    factors = {}
-    i = 2
-    while number != 1:
-        while number % i == 0:
-            try:
-                factors[i] += 1
-            except KeyError:
-                factors[i] = 1
-            number /= i
-        i += 1
-    return factors
-
 is_palindrome = lambda word: str(word) == str(word)[::-1]
-
-
-def ith_prime(number):
-    primes = [2]
-    while len(primes) < number:
-        primes.append(next_prime(primes[-1]))
-    return primes[-1]
-
-
-def is_prime(n):
-    if n < 2:
-        return False
-    if n % 2 == 0 and n > 2:
-        return False
-    return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
-
-
-def next_prime(number):
-    number += 1
-    while not is_prime(number):
-        number += 1
-    return number
 
 
 def start_from(a, b, matrix):
@@ -132,7 +86,7 @@ def greatest_product_in(number, length):
         i += 1
     return max(prods)
 
-sum_of_digits = lambda n, j=1: sum([int(i)**j for i in str(n)])
+sum_of_digits = lambda n, j = lambda k: k: sum([j(int(i)) for i in str(n)])
 
 
 def number_to_string(number):
@@ -202,19 +156,6 @@ def max_path_sum(file_name):
     return max(adj[len(adj)-1])
 
 
-def get_primes(length, primes):
-    lst = [1]*length
-    for i in xrange(2, length/2+1):
-        if lst[i] == 0:
-            continue
-        for j in xrange(i*2, length, i):
-            lst[j] = 0
-    for i in xrange(length):
-        if lst[i]:
-            primes.append(i)
-    primes.pop(1)
-    primes.pop(0)
-
 factorial = lambda n: n * factorial(n-1) if n > 1 else n
 
 
@@ -265,6 +206,131 @@ def permutations(head, tail=''):
         for i in range(len(head)):
             lst += permutations(head[0:i] + head[i+1:], tail+head[i])
     return lst
+
+
+def circ_number(num):
+    circulars = set()
+    str_num = str(num)
+    circulars.add(num)
+    for i in xrange(len(str_num)):
+        str_num = str_num[1:] + str_num[0]
+        circulars.add(int(str_num))
+    return circulars
+
+dec_to_bin = lambda x: dec_to_bin(x / 2) + str(x % 2) if x / 2 >= 1 else str(1)
+
+
+def make_truncatable_list(num):
+    tr_list = set([])
+    str_num = str(num)
+    for i in xrange(len(str_num)):
+        tr_list.add(int(str_num[i:]))
+        tr_list.add(int(str_num[:i+1]))
+    return list(tr_list)
+
+
+class Primes:
+    def __init__(self, length):
+        self.sieve = [1]*length
+        self.primes = set([])
+        self.length = length
+        for i in xrange(2, length/2+1):
+            if self.sieve[i] == 0:
+                continue
+            for j in xrange(i*2, length, i):
+                self.sieve[j] = 0
+        for i in range(2, length):
+            if self.sieve[i]:
+                self.primes.add(i)
+
+    def is_prime(self, n):
+        if n > self.length:
+            Primes._is_prime(n)
+        return self.sieve[n] > 0
+
+    def next_prime(self, n):
+        if n > self.length:
+            Primes._next_prime(n)
+        i = n
+        while self.sieve[i] == 0:
+            if i > self.length:
+                Primes._next_prime(i)
+            i += 1
+        return i
+
+    def get_primes(self):
+        return self.primes
+
+    def ith_prime(self, i):
+        j = 0
+        primes = 0
+        while primes != i:
+            if self.is_prime(j):
+                primes += 1
+            j += 1
+        return j
+
+    def is_all_prime(self, num_list):
+        return all(self.is_prime(j) for j in num_list)
+
+    def is_truncatable_prime(self, prime):
+        return self.is_all_prime(make_truncatable_list(prime))
+
+    @staticmethod
+    def set_prime_factors_of(number):
+        factors = set()
+        i = 2
+        while number != 1:
+            while number % i == 0:
+                factors.add(i)
+                number /= i
+            i += 1
+        return factors
+
+    @staticmethod
+    def dict_prime_factors_of(number):
+        factors = {}
+        i = 2
+        while number != 1:
+            while number % i == 0:
+                try:
+                    factors[i] += 1
+                except KeyError:
+                    factors[i] = 1
+                number /= i
+            i += 1
+        return factors
+
+    @staticmethod
+    def _is_prime(n):
+        if n < 2:
+            return False
+        if n % 2 == 0 and n > 2:
+            return False
+        return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
+
+    @staticmethod
+    def _next_prime(number):
+        number += 1
+        while not Primes._is_prime(number):
+            number += 1
+        return number
+
+    @staticmethod
+    def _ith_prime(number):
+        primes = [2]
+        while len(primes) < number:
+            primes.append(Primes._next_prime(primes[-1]))
+        return primes[-1]
+
+    @staticmethod
+    def _is_all_prime(num_list):
+        return all(Primes.is_prime(j) for j in num_list)
+
+    @staticmethod
+    def _is_truncatable_prime(prime):
+        return Primes.is_all_prime(make_truncatable_list(prime))
+
 
 if __name__ == "__main__":
     pass

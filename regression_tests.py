@@ -72,6 +72,16 @@ class UnitTest(TestCase):
         self.assertEquals(problem31(), 73682)
     def test_problem32(self):
         self.assertEquals(problem32(), 45228)
+    def test_problem33(self):
+        self.assertEquals(problem33(), 100)
+    def test_problem34(self):
+        self.assertEquals(problem34(), 40730)
+    def test_problem35(self):
+        self.assertEquals(problem35(), 55)
+    def test_problem36(self):
+        self.assertEquals(problem36(), 872187)
+    def test_problem37(self):
+        self.assertEquals(problem37(), 748317)
     def test_problem41(self):
         self.assertEquals(problem41(), 7652413)
     def test_problem67(self):
