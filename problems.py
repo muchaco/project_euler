@@ -5,7 +5,7 @@ from functions import *
 def problem1():
     # If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these
     # multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
-    return str(sum_of_multiples([3, 5], 1000))
+    return sum_of_multiples([3, 5], 1000)
 
 
 def problem2():
@@ -16,13 +16,13 @@ def problem2():
     while fib[-1] < 4000000:
         fib.append(fib[-1]+fib[-2])
     fib = [i for i in fib if i % 2 == 0]
-    return str(sum(fib))
+    return sum(fib)
 
 
 def problem3():
     # The prime factors of 13195 are 5, 7, 13 and 29.
     # What is the largest prime factor of the number 600851475143 ?
-    return str(max(set_prime_factors_of(600851475143)))
+    return max(set_prime_factors_of(600851475143))
 
 
 def problem4():
@@ -33,7 +33,7 @@ def problem4():
         for j in xrange(10**3-1, i-1, -1):
             if is_palindrome(i*j):
                 palindromes.append(i*j)
-    return str(max(palindromes))
+    return max(palindromes)
 
 
 def problem5():
@@ -52,18 +52,18 @@ def problem5():
     product = 1
     for i in final_factors.keys():
         product *= i**final_factors[i]
-    return str(product)
+    return product
 
 
 def problem6():
     #Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
-    return str(sum([i for i in xrange(1, 101)])**2 - sum([i**2 for i in xrange(1, 101)]))
+    return sum([i for i in xrange(1, 101)])**2 - sum([i**2 for i in xrange(1, 101)])
 
 
 def problem7():
     # By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
     # What is the 10001st prime number?
-    return str(ith_prime(10001))
+    return ith_prime(10001)
 
 
 def problem8():
@@ -80,7 +80,7 @@ def problem8():
              "7654568284891288314260769004224219022671055626321111109370544217506941658960408071984038509624554443629" \
              "8123098787992724428490918884580156166097919133875499200524063689912560717606058861164671094050775410022" \
              "5698315520005593572972571636269561882670428252483600823257530420752963450"
-    return str(greatest_product_in(number, 13))
+    return greatest_product_in(number, 13)
 
 
 def problem9():
@@ -96,18 +96,19 @@ def problem9():
                     b = d*(s**2-t**2)
                     c = d*(s**2+t**2)
                     if a > 0 and b > 0 and c > 0 and (a+b+c) == 1000:
-                        return str(a*b*c)
+                        return a*b*c
 
 
 def problem10():
     # Find the sum of all the primes below two million.
     primes = []
     get_primes(2*10**6 + 1, primes)
-    return str(sum(primes))
+    return sum(primes)
 
 
-# TODO: description needed
 def problem11():
+    # What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally)
+    # in the 20x20 grid?
     matrix = []
     one_line = []
     nums = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 " \
@@ -131,7 +132,7 @@ def problem11():
         if i % 20 == 19:
             matrix.append(one_line[:])
             one_line = []
-    return str(max([start_from(i, j, matrix) for i in xrange(20) for j in xrange(20)]))
+    return max([start_from(i, j, matrix) for i in xrange(20) for j in xrange(20)])
 
 
 def problem12():
@@ -143,7 +144,7 @@ def problem12():
     triangle_nums = [1]
     while num_of_divisors(triangle_nums[-1], True) < over + 1:
         triangle_nums.append(triangle_nums[-1] + len(triangle_nums) + 1)
-    return str(triangle_nums[-1])
+    return triangle_nums[-1]
 
 
 def problem13():
@@ -249,7 +250,7 @@ def problem13():
             20849603980134001723930671666823555245252804609722,
             53503534226472524250874054075591789781264330331690]
     _sum = str(sum(nums))
-    return _sum[:10]
+    return int(_sum[:10])
 
 
 def problem14():
@@ -260,28 +261,28 @@ def problem14():
             collatz[i]
         except KeyError:
             get_collatz(i)
-    return str(max([i for i in xrange(1, maximum)], key=lambda n: collatz[n]))
+    return max([i for i in xrange(1, maximum)], key=lambda n: collatz[n])
 
 
 def problem15():
     # Starting in the top left corner of a 2x2 grid, and only being able to move to the right and down, there are
     # exactly 6 routes to the bottom right corner. How many such routes are there through a 20x20 grid?
-    return str(ncr(2 * 20, 20))
+    return ncr(2 * 20, 20)
 
 
 def problem16():
     # What is the sum of the digits of the number 2**1000?
-    return str(sum_of_digits(2**1000))
+    return sum_of_digits(2**1000)
 
 
 def problem17():
     # If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words,
     # how many letters would be used?
-    return str(sum([len(number_to_string(i)) for i in xrange(1, 1001)]))
+    return sum([len(number_to_string(i)) for i in xrange(1, 1001)])
 
 
-# TODO: description needed
 def problem18():
+    # Find the maximum total from top to bottom of the triangle in the p018_triangle.txt file
     return max_path_sum("p018_triangle.txt")
 
 
@@ -306,19 +307,26 @@ def problem19():
             next_year_first_sunday = sundays[-1] + 7 - l
             if not i == 1900:
                 counter += len(first_days & set(sundays))
-    return str(counter)
+    return counter
 
 
-# TODO: problem20()
+def problem20():
+    # Find the sum of the digits in the number 100!
+    return sum_of_digits(factorial(100))
 
 
-# TODO: description needed
 def problem21():
-    return str(sum([i if is_amicable(i) else 0 for i in xrange(0, 10001)]))
+    # Evaluate the sum of all the amicable numbers under 10000.
+    return sum([i if is_amicable(i) else 0 for i in xrange(0, 10001)])
 
 
-# TODO: description needed
 def problem22():
+    # Using p022_names.txt (right click and 'Save Link/Target As...'), a 46K text file containing over five-thousand
+    # first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name,
+    # multiply this value by its alphabetical position in the list to obtain a name score.
+    # For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is
+    # the 938th name in the list. So, COLIN would obtain a score of 938 x 53 = 49714.
+    # What is the total of all the name scores in the file?
     def score_of_name(name, scores):
         score = 0
         for j in name:
@@ -335,7 +343,7 @@ def problem22():
     s = 0
     for i in names:
         s += score_of_name(i, alphabet)
-    return str(s)
+    return s
 
 
 def problem23():
@@ -347,14 +355,14 @@ def problem23():
             result.add(i)
         if is_abundant_num(i):
             abundant.append(i)
-    return str(sum(result))
+    return sum(result)
 
 
 def problem24():
     # The lexicographic permutations of 0, 1 and 2 are: 012   021   102   120   201   210
     # What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
     from itertools import permutations
-    return str("".join(list(permutations("0123456789"))[10**6-1]))
+    return int("".join(list(permutations("0123456789"))[10**6-1]))
 
 
 def problem25():
@@ -362,11 +370,128 @@ def problem25():
     f = [1, 1]
     while len(str(f[-1])) < 1000:
         f.append(f[-1]+f[-2])
-    return str(len(f))
+    return len(f)
 
 
-# TODO: description needed
+def problem26():
+    # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
+    lengths = [0]
+    for i in xrange(1, 1001):
+        lengths.append(length_of_recurring_cycle(i))
+    return lengths.index(max(lengths))
+
+
+def problem27():
+    # Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of
+    # primes for consecutive values of n, starting with n = 0.
+    quadratic_expression = lambda a, b: lambda n: n**2 + a*n + b
+    maximum = 0
+    product = 0
+    for i in xrange(-1000, 1001):
+        for j in xrange(-1000, 1001):
+            k = 0
+            while is_prime(quadratic_expression(i, j)(k)):
+                k += 1
+            if k > maximum:
+                maximum = k
+                product = i*j
+    return product
+
+
+def problem28():
+    #
+    _sum = 1
+    counter = 1
+    size = 1001
+    for i in xrange(1, size/2+1):
+        counter += i*2
+        _sum += counter
+        counter += i*2
+        _sum += counter
+        counter += i*2
+        _sum += counter
+        counter += i*2
+        _sum += counter
+    return _sum
+
+
+def problem29():
+    # How many distinct terms are in the sequence generated by ab for 2 <= a <= 100 and 2 <= b <= 100?
+    s = set()
+    for i in xrange(2, 101):
+        for j in xrange(2, 101):
+            s.add(i**j)
+    return len(s)
+
+
+def problem30():
+    # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
+    _sum = 0
+    for i in xrange(3, 1000000):
+        fact_sum = sum_of_digits(i, 5)
+        if i == fact_sum:
+            _sum += fact_sum
+    return _sum
+
+
+def problem31():
+    # How many different ways can 200p be made using any number of coins?
+    # coins: 1p, 2p, 5p, 10p, 20p, 50p, 100p, 200p
+    possibilities = 0
+    for i in xrange(0, 201):
+        for j in xrange(0, 201, 2):
+            if i+j >200:
+                break
+            for k in xrange(0, 201, 5):
+                if i+j+k > 200:
+                    break
+                for l in xrange(0, 201, 10):
+                    if i+j+k+l > 200:
+                        break
+                    for m in xrange(0, 201, 20):
+                        if i+j+k+l+m > 200:
+                            break
+                        for n in xrange(0, 201, 50):
+                            if i+j+k+l+m+n > 200:
+                                break
+                            for o in xrange(0, 201, 100):
+                                if i+j+k+l+m+n+o > 200:
+                                    break
+                                for p in xrange(0, 201, 200):
+                                    if i+j+k+l+m+n+o+p == 200:
+                                        possibilities += 1
+    return possibilities
+
+
+def problem32():
+    # Find the sum of all products whose multiplicand/multiplier/product identity can be written as a
+    # 1 through 9 pandigital.
+    _sum = set()
+    for i in xrange(10):
+        for j in xrange(1001, 10000):
+            prod = i*j
+            if is_pandigital(str(i)+str(j)+str(prod), 9):
+                _sum.add(prod)
+    for i in xrange(11, 100):
+        for j in xrange(101, 1000):
+            prod = i*j
+            if is_pandigital(str(i)+str(j)+str(prod), 9):
+                _sum.add(prod)
+    return sum(_sum)
+
+
+def problem41():
+    # What is the largest n-digit pandigital prime that exists?
+    lst = []
+    for i in xrange(2, 10):
+        lst += permutations(default_pandigital(i))
+    for i in range(len(lst)-1, -1, -1):
+        if is_prime(int(lst[i])):
+            return int(lst[i])
+
+
 def problem67():
+    # Find the maximum total from top to bottom of the triangle in the p067_triangle.txt file
     return max_path_sum("p067_triangle.txt")
 
 if __name__ == "__main__":

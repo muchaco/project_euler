@@ -55,7 +55,7 @@ def is_prime(n):
         return False
     if n % 2 == 0 and n > 2:
         return False
-    return all(n % i for i in range(3, int(math.sqrt(n)) + 1, 2))
+    return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
 
 
 def next_prime(number):
@@ -132,7 +132,7 @@ def greatest_product_in(number, length):
         i += 1
     return max(prods)
 
-sum_of_digits = lambda n: sum([int(i) for i in str(n)])
+sum_of_digits = lambda n, j=1: sum([int(i)**j for i in str(n)])
 
 
 def number_to_string(number):
@@ -191,15 +191,15 @@ def is_num_sum_of_two_in_list(n, lst, distinct_values=True):
     return False
 
 
-def max_path_sum(file):
-    with open(file) as f:
+def max_path_sum(file_name):
+    with open(file_name) as f:
         adj = f.read().split("\n")
         adj = [[int(j) for j in i.split(" ")] + [0] for i in adj]
     # parse_triangle(input, adj)
     for i in xrange(1, len(adj)):
         for j in xrange(i+1):
             adj[i][j] += max(adj[i-1][j], adj[i-1][j-1])
-    return str(max(adj[len(adj)-1]))
+    return max(adj[len(adj)-1])
 
 
 def get_primes(length, primes):
@@ -214,6 +214,57 @@ def get_primes(length, primes):
             primes.append(i)
     primes.pop(1)
     primes.pop(0)
+
+factorial = lambda n: n * factorial(n-1) if n > 1 else n
+
+
+def index_of(a, x):
+    try:
+        return a.index(x)
+    except ValueError:
+        return 0
+
+
+def length_of_recurring_cycle(i):
+    remainders = list([0])
+    rem = 1
+    while not index_of(remainders, rem):
+        remainders.append(rem)
+        rem = rem*10 % i
+        if rem == 0:
+            return 0
+    return len(remainders)-index_of(remainders, rem)
+
+
+def is_pandigital(a, b, include_null = False):
+    _str = str(a)
+    reference = default_pandigital(b, include_null)
+    if len(_str) != len(reference):
+        return False
+    if set(_str) & set(reference) != set(reference):
+        return False
+    return True
+
+def default_pandigital(n, include_null = False):
+    if include_null:
+        string = "0"
+    else:
+        string = ""
+    for i in xrange(1, n+1):
+        string += str(i)
+    return string
+
+strstr = lambda haystack, needle: False if haystack.upper().find(needle.upper()) < 0 else True
+
+
+def permutations(head, tail=''):
+    lst = []
+    if len(head) == 0:
+        lst.append(tail)
+    else:
+        for i in range(len(head)):
+            lst += permutations(head[0:i] + head[i+1:], tail+head[i])
+    return lst
 
 if __name__ == "__main__":
     pass

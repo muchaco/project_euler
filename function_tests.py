@@ -82,5 +82,18 @@ class UnitTest(TestCase):
         self.assertEquals(dict_prime_factors_of(35), {5: 1, 7: 1})
         self.assertEquals(dict_prime_factors_of(350), {2: 1, 5: 2, 7: 1})
 
+    def test_factorial(self):
+        self.assertEquals(factorial(5), 120)
+        self.assertEquals(factorial(32), 263130836933693530167218012160000000)
+        self.assertEquals(factorial(1), 1)
+
+    def test_is_pandigital(self):
+        self.assertTrue(is_pandigital(123456789, 9))
+        self.assertFalse(is_pandigital(123456709, 9))
+        self.assertFalse(is_pandigital(823431388, 9))
+        self.assertFalse(is_pandigital(8234313, 9))
+        self.assertFalse(is_pandigital(112233445566778899, 9))
+        self.assertTrue(is_pandigital(12345, 5))
+
 if __name__ == "__main__":
     pass
