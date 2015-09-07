@@ -244,17 +244,17 @@ class Primes:
                 self.primes.add(i)
 
     def is_prime(self, n):
-        if n > self.length:
-            Primes._is_prime(n)
+        if n >= self.length:
+            return Primes._is_prime(n)
         return self.sieve[n] > 0
 
     def next_prime(self, n):
-        if n > self.length:
-            Primes._next_prime(n)
+        if n >= self.length:
+            return Primes._next_prime(n)
         i = n
         while self.sieve[i] == 0:
-            if i > self.length:
-                Primes._next_prime(i)
+            if i >= self.length:
+                return Primes._next_prime(i)
             i += 1
         return i
 
@@ -262,13 +262,7 @@ class Primes:
         return self.primes
 
     def ith_prime(self, i):
-        j = 0
-        primes = 0
-        while primes != i:
-            if self.is_prime(j):
-                primes += 1
-            j += 1
-        return j
+        return [j for j, k in enumerate(self.sieve) if k][i-1]
 
     def is_all_prime(self, num_list):
         return all(self.is_prime(j) for j in num_list)
