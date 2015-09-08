@@ -262,7 +262,10 @@ class Primes:
         return self.primes
 
     def ith_prime(self, i):
-        return [j for j, k in enumerate(self.sieve) if k][i-1]
+        try:
+            return [j for j, k in enumerate(self.sieve) if k][i-1]
+        except IndexError:
+            return Primes._ith_prime(i)
 
     def is_all_prime(self, num_list):
         return all(self.is_prime(j) for j in num_list)
