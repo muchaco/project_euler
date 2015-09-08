@@ -230,6 +230,41 @@ def make_truncatable_list(num):
     return list(tr_list)
 
 
+def num_x_tupli(number, tupli):
+    product = ""
+    for i in tupli:
+        product += str(number * i)
+    return int(product)
+
+num_len = lambda n: int(math.log10(n))+1 if n != 0 else 1
+
+
+def prod(lst):
+    ret_val = 1
+    for i in lst:
+        ret_val *= i
+    return ret_val
+
+
+def word_value(word):
+    alphabet = ["0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+                "t", "u", "v", "w", "x", "y", "z"]
+    return sum([alphabet.index(i.lower()) for i in word])
+
+
+nth_triangle_num = lambda x: 0.5*x*(x-1)
+
+
+def is_triangle_word(word):
+    num = word_value(word)
+    n = 1
+    last_triangle_number = 0
+    while last_triangle_number < num:
+        last_triangle_number = int(nth_triangle_num(n))
+        n += 1
+    return last_triangle_number == num
+
+
 class Primes:
     def __init__(self, length):
         self.sieve = [1]*length

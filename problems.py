@@ -282,7 +282,7 @@ def problem17():
 
 def problem18():
     # Find the maximum total from top to bottom of the triangle in the p018_triangle.txt file
-    return max_path_sum("p018_triangle.txt")
+    return max_path_sum("files/p018_triangle.txt")
 
 
 def problem19():
@@ -335,7 +335,7 @@ def problem22():
 
     alphabet = ["\"", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
                 "t", "u", "v", "w", "x", "y", "z"]
-    with open("p022_names.txt") as f:
+    with open("files/p022_names.txt") as f:
         line = f.read()
         names = line.split(",")
     names.sort()
@@ -541,7 +541,9 @@ def problem36():
             _sum += i
     return _sum
 
+
 def problem37():
+    # Find the sum of the only eleven primes that are both truncatable from left to right and right to left.
     prime_obj = Primes(1000000)
     truncatable_primes = set([])
     i = 11
@@ -556,6 +558,53 @@ def problem37():
     return sum(truncatable_primes)
 
 
+def problem38():
+    # What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer
+    # with (1,2, ... , n) where n > 1?
+    possible_nums = [int("9" + str(x)) for x in xrange(1, 1000)] + [int("90" + str(x)) for x in xrange(1, 100)] + \
+                    [int("900" + str(x)) for x in xrange(1, 10)]
+    possible_tuples = [(1, 2), (1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5)]
+    max_value = 0
+    for i in possible_nums:
+        for j in possible_tuples:
+            act_value = num_x_tupli(i, j)
+            if is_pandigital(act_value, 9):
+                if max_value < act_value:
+                    max_value = act_value
+    return max_value
+
+
+def problem39():
+    # If p is the perimeter of a right angle triangle with integral length sides, {a,b,c}, there are exactly three
+    # solutions for p = 120.
+    # {20,48,52}, {24,45,51}, {30,40,50}
+    # For which value of p <= 1000, is the number of solutions maximised?
+    _map = [0]*1001
+    for i in xrange(1000):
+        for j in xrange(i):
+            for k in xrange(j):
+                if j**2 + k**2 == i**2 and i+j+k <= 1000:
+                    _map[j+k+i] += 1
+    return _map.index(sorted(_map)[-1])
+
+
+def problem40():
+    # An irrational decimal fraction is created by concatenating the positive integers:
+    # 0.123456789101112131415161718192021...
+    # It can be seen that the 12th digit of the fractional part is 1.
+    # If dn represents the nth digit of the fractional part, find the value of the following expression.
+    # d1 x d10 x d100 x d1000 x d10000 x d100000 x d1000000
+    milestones = [10**i-1 for i in xrange(0, 7)]
+    num_length = 0
+    str_num = ""
+    i = 1
+    while num_length < 1000000:
+        str_num += str(i)
+        num_length += num_len(i)
+        i += 1
+    return prod([int(str_num[i]) for i in milestones])
+
+
 def problem41():
     # What is the largest n-digit pandigital prime that exists?
     lst = []
@@ -566,9 +615,45 @@ def problem41():
             return int(lst[i])
 
 
+def problem42():
+    # nth triangle num: 0.5*x*(x-1)
+    # the first ten triangle numbers are: 1, 3, 6, 10, 15, 21, 28, 36, 45, 55
+    # By converting each letter in a word to a number corresponding to its alphabetical position and adding these
+    # values we form a word value. For example, the word value for SKY is 19 + 11 + 25 = 55 = t10. If the word value
+    # is a triangle number then we shall call the word a triangle word.
+    # Using words.txt a 16K text file containing nearly two-thousand common English words, how many are triangle words?
+    with open("files/p042_words.txt") as f:
+        line = f.read()
+        words = [i.strip("\"") for i in line.split(",")]
+    triangle_word_count = 0
+    for j in words:
+        if is_triangle_word(j):
+            triangle_word_count += 1
+    return triangle_word_count
+
+
+def problem43():
+    # Find the sum of all 0 to 9 pandigital numbers with the property described in
+    # https://projecteuler.net/problem=43
+    condition = lambda i: int(i[1:4]) % 2 == 0 and \
+                          int(i[2:5]) % 3 == 0 and \
+                          int(i[3:6]) % 5 == 0 and \
+                          int(i[4:7]) % 7 == 0 and \
+                          int(i[5:8]) % 11 == 0 and \
+                          int(i[6:9]) % 13 == 0 and \
+                          int(i[7:10]) % 17 == 0
+    perm = permutations("1023456789")
+    chosen_ones = []
+    for i in perm:
+        if num_len(int(i)) == 10:
+            if condition(i):
+                chosen_ones.append(int(i))
+    return sum(chosen_ones)
+
+
 def problem67():
     # Find the maximum total from top to bottom of the triangle in the p067_triangle.txt file
-    return max_path_sum("p067_triangle.txt")
+    return max_path_sum("files/p067_triangle.txt")
 
 if __name__ == "__main__":
     pass
