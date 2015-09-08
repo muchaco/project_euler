@@ -542,14 +542,17 @@ def problem36():
     return _sum
 
 def problem37():
-    prime_obj = Primes(380)
+    prime_obj = Primes(1000000)
     truncatable_primes = set([])
-    i = 5
+    i = 11
     while len(truncatable_primes) != 11:
-        act_prime = prime_obj.ith_prime(i)
-        if prime_obj.is_truncatable_prime(act_prime):
-            truncatable_primes.add(act_prime)
-        i += 1
+        prime = i
+        if not prime_obj.is_prime(prime):
+            i += 2
+            continue
+        if prime_obj.is_truncatable_prime(prime):
+            truncatable_primes.add(prime)
+        i += 2
     return sum(truncatable_primes)
 
 

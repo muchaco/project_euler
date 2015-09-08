@@ -1,6 +1,7 @@
 __author__ = 'muchaco'
 
 import math
+from time import time
 
 def sum_of_multiples(list_of_bases, max_number):
     my_set = set()
@@ -234,6 +235,7 @@ class Primes:
         self.sieve = [1]*length
         self.primes = set([])
         self.length = length
+        self.sieve[0], self.sieve[1] = 0, 0
         for i in xrange(2, length/2+1):
             if self.sieve[i] == 0:
                 continue
@@ -246,7 +248,7 @@ class Primes:
     def is_prime(self, n):
         if n >= self.length:
             return Primes._is_prime(n)
-        return self.sieve[n] > 0
+        return self.sieve[n]
 
     def next_prime(self, n):
         if n >= self.length:
@@ -326,7 +328,7 @@ class Primes:
 
     @staticmethod
     def _is_truncatable_prime(prime):
-        return Primes.is_all_prime(make_truncatable_list(prime))
+        return Primes._is_all_prime(make_truncatable_list(prime))
 
 
 if __name__ == "__main__":
