@@ -509,7 +509,7 @@ def problem33():
                     pass
     return __j/fractions.gcd(__i, __j)
 
-
+# TODO: refactor because it is very slow
 def problem34():
     # Find the sum of all numbers which are equal to the sum of the factorial of their digits.
     factorials = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
@@ -573,7 +573,7 @@ def problem38():
                     max_value = act_value
     return max_value
 
-
+# TODO: refactor because it is very slow
 def problem39():
     # If p is the perimeter of a right angle triangle with integral length sides, {a,b,c}, there are exactly three
     # solutions for p = 120.
@@ -631,7 +631,7 @@ def problem42():
             triangle_word_count += 1
     return triangle_word_count
 
-
+# TODO: refactor because it is very slow
 def problem43():
     # Find the sum of all 0 to 9 pandigital numbers with the property described in
     # https://projecteuler.net/problem=43
@@ -649,6 +649,133 @@ def problem43():
             if condition(i):
                 chosen_ones.append(int(i))
     return sum(chosen_ones)
+
+
+# TODO: problem44
+def problem44():
+    def pop_min(lst):
+        min_value = -1
+        min_place = -1
+        for i in xrange(len(lst)):
+            act = abs(lst[i][1]-lst[i][0])
+            if act < min_value or min_value == -1:
+                min_value = act
+                min_place = i
+        ret_val = lst[min_place]
+        lst.pop(min_place)
+        return ret_val
+    p_n = lambda n: n * (3 * n - 1) / 2
+    pentagonal_nums = set([])
+    for i in xrange(1, 10):
+        pentagonal_nums.add(p_n(i))
+    lst = list(itertools.combinations(pentagonal_nums, 2))
+    print min(lst, key=lambda t: max(t)-min(t))
+
+    # act_tuple = ()
+    # while len(lst) != 0:
+    #     act_tuple = pop_min(lst)
+    #     if act_tuple[0]+act_tuple[1] in pentagonal_nums and max(act_tuple) - min(act_tuple) in pentagonal_nums:
+    #         print max(act_tuple) - min(act_tuple)
+
+# TODO: it's ready in PE, should write script
+def problem45():
+    pass
+
+
+# TODO: problem46
+
+# TODO: refactor because it is very slow
+def problem47():
+    # The first two consecutive numbers to have two distinct prime factors are:
+    #  14 = 2 x 7
+    #  15 = 3 x 5
+    # The first three consecutive numbers to have three distinct prime factors are:
+    #  644 = 2**2 x 7 x 23
+    #  645 = 3 x 5 x 43
+    #  646 = 2 x 17 x 19.
+    # Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?
+    prime_obj = Primes(1000000)
+
+    def custom_prime_factors_of(number):
+        factors = set()
+        j = 0
+        while number != 1 and len(factors) <= 5:
+            jth_prime = prime_obj.ith_prime(j)
+            while number % jth_prime == 0:
+                factors.add(jth_prime)
+                number /= jth_prime
+            j += 1
+        return factors
+    j = 0
+    digits = 4
+    for i in xrange(1, 1000000):
+        length = len(custom_prime_factors_of(i))
+        if length == digits:
+            j += 1
+        else:
+            j = 0
+        if j == digits:
+            return i-digits+1
+
+
+def problem48():
+    # The series, 11 + 22 + 33 + ... + 1010 = 10405071317.
+    # Find the last ten digits of the series, 11 + 22 + 33 + ... + 10001000.
+    _sum = 0
+    mod = 10**10
+    for i in xrange(1, 1000):
+        #_sum += i**i % 10
+        _sum += power_mod(i, i, mod)
+        _sum %= mod
+    return _sum
+
+
+def problem49():
+    # The arithmetic sequence, 1487, 4817, 8147, in which each of the terms increases by 3330, is unusual in two ways:
+    # (i) each of the three terms are prime, and, (ii) each of the 4-digit numbers are permutations of one another.
+    # There are no arithmetic sequences made up of three 1-, 2-, or 3-digit primes, exhibiting this property, but there
+    # is one other 4-digit increasing sequence.
+    # What 12-digit number do you form by concatenating the three terms in this sequence?
+    prime_obj = Primes(10000)
+    sorted_primes = [elem for elem in prime_obj.get_primes() if num_len(elem) == 4]
+    arithmetic = list()
+    length = len(sorted_primes)
+    for i in xrange(length):
+        for j in xrange(i+1, length):
+            third = sorted_primes[j] + sorted_primes[j] - sorted_primes[i]
+            if prime_obj.is_prime(third) and \
+                    varieties(sorted_primes[i], sorted_primes[j]) and \
+                    varieties(sorted_primes[i], third) and \
+                    varieties(sorted_primes[j], third):
+                arithmetic.append((sorted_primes[i], sorted_primes[j], sorted_primes[j] + sorted_primes[j] - sorted_primes[i]))
+    return num_x_tupli(1, arithmetic[-1])
+
+
+def problem50():
+    # The prime 41, can be written as the sum of six consecutive primes:
+    # 41 = 2 + 3 + 5 + 7 + 11 + 13
+    # This is the longest sum of consecutive primes that adds to a prime below one-hundred.
+    # The longest sum of consecutive primes below one-thousand that adds to a prime, contains 21 terms, and is equal
+    # to 953.
+    # Which prime, below one-million, can be written as the sum of the most consecutive primes?
+    prime_obj = Primes(1000000)
+    sorted_primes = prime_obj.get_primes()
+    my_max = 0
+    max_prime = 0
+    len_primes = len(sorted_primes)
+    for i in xrange(len_primes):
+        k = 2
+        while i+k+1 <= len_primes and sum(sorted_primes[i:i+k+1]) <= sorted_primes[-1]:
+            if prime_obj.is_prime(sum(sorted_primes[i:i+k+1])):
+                if my_max < k:
+                    my_max = k
+                    max_prime = sum(sorted_primes[i:i+k+1])
+            k += 2
+    return max_prime
+
+# TODO: it's ready in PE, should write script
+def problem56():
+    pass
 
 
 def problem67():

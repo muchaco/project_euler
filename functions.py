@@ -1,7 +1,7 @@
 __author__ = 'muchaco'
 
 import math
-from time import time
+import itertools
 
 def sum_of_multiples(list_of_bases, max_number):
     my_set = set()
@@ -265,10 +265,34 @@ def is_triangle_word(word):
     return last_triangle_number == num
 
 
+# TODO: create module tests
+def power_mod(a, b, modulus):
+    pow_remainders = [a]
+    bin_b = dec_to_bin(b)
+    len_b = len(bin_b)
+    for i in xrange(1, len_b):
+        pow_remainders.append((pow_remainders[i-1] ** 2) % modulus)
+    prod = 1
+    for i in xrange(len_b):
+        if bin_b[i] == '1':
+            prod *= (pow_remainders[len_b-i-1]) % modulus
+    return prod % modulus
+
+
+def varieties(a, b):
+    for i in str(b):
+        if i not in str(a):
+            return False
+    for i in str(a):
+        if i not in str(b):
+            return False
+    return True
+
+
 class Primes:
     def __init__(self, length):
         self.sieve = [1]*length
-        self.primes = set([])
+        self.primes = list()
         self.length = length
         self.sieve[0], self.sieve[1] = 0, 0
         for i in xrange(2, length/2+1):
@@ -278,7 +302,8 @@ class Primes:
                 self.sieve[j] = 0
         for i in range(2, length):
             if self.sieve[i]:
-                self.primes.add(i)
+                self.primes.append(i)
+
 
     def is_prime(self, n):
         if n >= self.length:
@@ -300,7 +325,7 @@ class Primes:
 
     def ith_prime(self, i):
         try:
-            return [j for j, k in enumerate(self.sieve) if k][i-1]
+            return self.primes[i]
         except IndexError:
             return Primes._ith_prime(i)
 

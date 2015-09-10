@@ -72,7 +72,7 @@ class UnitTest(TestCase):
         self.assertEquals(len(number_to_string(20)), 6)
         self.assertEquals(len(number_to_string(36)), 9)
         self.assertEquals(len(number_to_string(47)), 10)
-        self.assertEquals(len(number_to_string(100)), len("onehundred"))
+        self.assertEquals(number_to_string(100), "onehundred")
         self.assertEquals(len(number_to_string(342)), 23)
         self.assertEquals(len(number_to_string(115)), 20)
 
