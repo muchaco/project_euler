@@ -775,7 +775,12 @@ def problem50():
 
 # TODO: it's ready in PE, should write script
 def problem56():
-    pass
+    # Considering natural numbers of the form, ab, where a, b < 100, what is the maximum digital sum?
+    digit_sums = list()
+    for a in xrange(1, 100):
+        for b in xrange(1, 100):
+            digit_sums.append(sum_of_digits(a**b))
+    return max(digit_sums)
 
 
 def problem67():

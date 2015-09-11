@@ -2,6 +2,7 @@ __author__ = 'muchaco'
 
 from time import time
 from problems import *
+import sys
 
 def execute_problem(ith):
     t0 = time()
@@ -12,4 +13,7 @@ def execute_problem(ith):
         print "This problem hasn't been resolved yet"
 
 if __name__ == "__main__":
-    execute_problem(50)
+    if len(sys.argv) == 2:
+        execute_problem(sys.argv[1])
+    else:
+        execute_problem(50)

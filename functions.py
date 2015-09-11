@@ -187,6 +187,7 @@ def is_pandigital(a, b, include_null = False):
         return False
     return True
 
+
 def default_pandigital(n, include_null = False):
     if include_null:
         string = "0"
