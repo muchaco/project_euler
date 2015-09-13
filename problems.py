@@ -638,20 +638,29 @@ def problem42():
 def problem43():
     # Find the sum of all 0 to 9 pandigital numbers with the property described in
     # https://projecteuler.net/problem=43
-    condition = lambda i: int(i[1:4]) % 2 == 0 and \
-                          int(i[2:5]) % 3 == 0 and \
-                          int(i[3:6]) % 5 == 0 and \
-                          int(i[4:7]) % 7 == 0 and \
-                          int(i[5:8]) % 11 == 0 and \
-                          int(i[6:9]) % 13 == 0 and \
-                          int(i[7:10]) % 17 == 0
-    perm = permutations("1023456789")
-    chosen_ones = []
+    def condition(i):
+        if int(i[7:10]) % 17 != 0:
+            return False
+        elif int(i[6:9]) % 13 != 0:
+            return False
+        elif int(i[5:8]) % 11 != 0:
+            return False
+        elif int(i[4:7]) % 7 != 0:
+            return False
+        elif int(i[3:6]) % 5 != 0:
+            return False
+        elif int(i[2:5]) % 3 != 0:
+            return False
+        elif int(i[1:4]) % 2 != 0:
+            return False
+        return True
+    perm = permutations("0123456789")
+    _sum = 0
     for i in perm:
-        if num_len(int(i)) == 10:
+        if i[0] != 0:
             if condition(i):
-                chosen_ones.append(int(i))
-    return sum(chosen_ones)
+                _sum += int(i)
+    return _sum
 
 
 # TODO: problem44
@@ -694,28 +703,21 @@ def problem45():
     hex_i = 144
     pen_list = [pen_f(pen_i)]
     hex_list = [hex_f(hex_i)]
-    _max = 0
     while pen_list[-1] != hex_list[-1]:
+        hex_list.append(hex_f(hex_i))
+        hex_i += 1
         while True:
-            pen_list.append(pen_f(pen_i))
+            nex_pen = pen_f(pen_i)
+            if nex_pen > hex_list[-1]:
+                pen_i -= 1
+                break
+            pen_list.append(nex_pen)
             pen_i += 1
-            if pen_list[-1] >= _max:
-                _max = pen_list[-1]
-                break
-        while True:
-            nex_hex = hex_f(hex_i)
-            if nex_hex > _max:
-                hex_i -= 1
-                break
-            hex_list.append(nex_hex)
-            hex_i += 1
-
     return pen_list[-1]
 
 # TODO: problem46
 
 
-# TODO: refactor because it is very slow
 def problem47():
     # The first two consecutive numbers to have two distinct prime factors are:
     #  14 = 2 x 7
@@ -725,23 +727,27 @@ def problem47():
     #  645 = 3 x 5 x 43
     #  646 = 2 x 17 x 19.
     # Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?
-    prime_obj = Primes(1000000)
+    prime_obj = Primes(200000)
 
     def custom_prime_factors_of(number):
-        factors = set()
         j = 0
-        while number != 1 and len(factors) <= 5:
+        _len = 1
+        if prime_obj.is_prime(number):
+            return 1
+        while number != 1 and _len < 5:
             jth_prime = prime_obj.ith_prime(j)
+            if jth_prime > math.sqrt(number):
+                return _len
+            if number % jth_prime == 0:
+                _len += 1
             while number % jth_prime == 0:
-                factors.add(jth_prime)
                 number /= jth_prime
             j += 1
-        return factors
+        return _len
     j = 0
     digits = 4
-    for i in xrange(1, 1000000):
-        length = len(custom_prime_factors_of(i))
-        if length == digits:
+    for i in xrange(1, 200000):
+        if custom_prime_factors_of(i) == digits:
             j += 1
         else:
             j = 0
