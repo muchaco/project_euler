@@ -811,7 +811,23 @@ def problem50():
     return max_prime
 
 
-# TODO: it's ready in PE, should write script
+def problem53():
+    # How many, not necessarily distinct, values of  nCr, for 1 <= n <= 100, are greater than one-million?
+    _max_line = 100
+    pyth_triangle = [[0], [0,1,0]]
+    _counter = 0
+    for i in xrange(2, _max_line+2):
+        pyth_triangle.append(list())
+        for j in xrange(0, i+2):
+            try:
+                pyth_triangle[i].append(pyth_triangle[i-1][j-1] + pyth_triangle[i-1][j])
+                if pyth_triangle[i][j] > 10**6:
+                    _counter += 1
+            except IndexError:
+                pyth_triangle[i].append(0)
+    return _counter
+
+
 def problem56():
     # Considering natural numbers of the form, ab, where a, b < 100, what is the maximum digital sum?
     digit_sums = list()
