@@ -2,6 +2,7 @@ __author__ = 'muchaco'
 
 import math
 import itertools
+import collections
 
 def sum_of_multiples(list_of_bases, max_number):
     my_set = set()
@@ -90,7 +91,7 @@ def greatest_product_in(number, length):
 sum_of_digits = lambda n, j = lambda k: k: sum([j(int(i)) for i in str(n)])
 
 
-def number_to_string(number):
+def write_down_number(number):
     numbers = ["null", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
     numbers_teen = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen"]
     numbers_10 = ["null", "teen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
@@ -109,7 +110,7 @@ def number_to_string(number):
     if len(str_num) < 4:
         if int(str_num[1:]) == 0:
             return numbers[int(str_num[0])] + "hundred"
-        return numbers[int(str_num[0])] + "hundredand" + number_to_string(int(str(number)[1:]))
+        return numbers[int(str_num[0])] + "hundredand" + write_down_number(int(str(number)[1:]))
     return "onethousand"
 
 
@@ -202,10 +203,49 @@ strstr = lambda haystack, needle: False if haystack.upper().find(needle.upper())
 
 def permutations(head, tail=''):
     lst = []
-    if len(head) == 0:
+    len_head = len(head)
+    if len_head == 0:
         lst.append(tail)
     else:
+        for i in xrange(len_head):
+            lst += permutations(head[0:i] + head[i+1:], tail+head[i])
+    return lst
+
+#permutations = lambda x: [x[i]+j for i in xrange(len(x)) for j in permutations(x[:i]+x[i+1:])] if len(x) > 1 else x
+
+
+def p43_permutations(head, tail=''):
+    lst = []
+    _len = len(head)
+    if _len == 0:
+        lst.append(tail)
+    if _len == 4:
+        if int(head[1:4]) % 2 != 0:
+            return lst
+    elif _len == 5:
+        if int(head[2:5]) % 3 != 0:
+            return lst
+    elif _len == 6:
+        if int(head[3:6]) % 5 != 0:
+            return lst
+    elif _len == 7:
+        if int(head[4:7]) % 7 != 0:
+            return lst
+    elif _len == 8:
+        if int(head[5:8]) % 7 != 0:
+            return lst
+    elif _len == 9:
+        if int(head[6:9]) % 11 != 0:
+            return lst
+    elif _len == 10:
+        if int(head[7:10]) % 13 != 0:
+            return lst
+    elif _len == 11:
+        if int(head[8:11]) % 17 != 0:
+            return lst
+    else:
         for i in range(len(head)):
+            print "valami"
             lst += permutations(head[0:i] + head[i+1:], tail+head[i])
     return lst
 
@@ -304,13 +344,10 @@ class Primes:
         for i in range(2, length):
             if self.sieve[i]:
                 self.primes.append(i)
-
-
     def is_prime(self, n):
         if n >= self.length:
             return Primes._is_prime(n)
         return self.sieve[n]
-
     def next_prime(self, n):
         if n >= self.length:
             return Primes._next_prime(n)
@@ -320,22 +357,17 @@ class Primes:
                 return Primes._next_prime(i)
             i += 1
         return i
-
     def get_primes(self):
         return self.primes
-
     def ith_prime(self, i):
         try:
             return self.primes[i]
         except IndexError:
             return Primes._ith_prime(i)
-
     def is_all_prime(self, num_list):
         return all(self.is_prime(j) for j in num_list)
-
     def is_truncatable_prime(self, prime):
         return self.is_all_prime(make_truncatable_list(prime))
-
     @staticmethod
     def set_prime_factors_of(number):
         factors = set()
@@ -346,7 +378,6 @@ class Primes:
                 number /= i
             i += 1
         return factors
-
     @staticmethod
     def dict_prime_factors_of(number):
         factors = {}
@@ -360,7 +391,6 @@ class Primes:
                 number /= i
             i += 1
         return factors
-
     @staticmethod
     def _is_prime(n):
         if n < 2:
@@ -368,28 +398,118 @@ class Primes:
         if n % 2 == 0 and n > 2:
             return False
         return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
-
     @staticmethod
     def _next_prime(number):
         number += 1
         while not Primes._is_prime(number):
             number += 1
         return number
-
     @staticmethod
     def _ith_prime(number):
         primes = [2]
         while len(primes) < number:
             primes.append(Primes._next_prime(primes[-1]))
         return primes[-1]
-
     @staticmethod
     def _is_all_prime(num_list):
         return all(Primes.is_prime(j) for j in num_list)
-
     @staticmethod
     def _is_truncatable_prime(prime):
         return Primes._is_all_prime(make_truncatable_list(prime))
+
+
+class OrderedSet(collections.Set):
+    def __init__(self, iterable=()):
+        self.d = collections.OrderedDict.fromkeys(iterable)
+
+    def __len__(self):
+        return len(self.d)
+
+    def __contains__(self, element):
+        return element in self.d
+
+    def __iter__(self):
+        return iter(self.d)
+
+
+def infinite_fraction(x, y, max_iter=-1, iteration=0):
+    if max_iter == -1:
+        max_iter = len(y)
+    if max_iter == 0:
+        return x
+    if iteration == 0:
+        return x + 1.0/(infinite_fraction(x, y, max_iter, iteration+1))
+    if iteration == max_iter:
+        return y[iteration % len(y)]
+    else:
+        return y[iteration % len(y)] + 1.0/(infinite_fraction(x, y, max_iter, iteration+1))
+
+
+def find_the_fraction_of(fraction):
+    i = 1
+    while True:
+        act_product = fraction * i
+        if act_product == int(act_product):
+            return tuple([int(act_product), i])
+        i += 1
+
+
+def lcm(nums):
+    lst = list()
+    final_factors = {}
+    for i in nums:
+        lst.append(Primes.dict_prime_factors_of(i))
+    for i in lst:
+        for j in i.keys():
+            try:
+                if final_factors[j] < i[j]:
+                    final_factors[j] = i[j]
+            except KeyError:
+                final_factors[j] = i[j]
+    product = 1
+    for i in final_factors.keys():
+        product *= i ** final_factors[i]
+    return product
+
+
+def gcd(nums):
+    lst = list()
+    factors = {}
+    for i in nums:
+        lst.append(Primes.dict_prime_factors_of(i))
+    final_factors = set(lst[0].keys())
+    for i in lst:
+        final_factors = final_factors & set(i.keys())
+    for i in lst:
+        for j in final_factors:
+            try:
+                if factors[j] > i[j]:
+                    factors[j] = i[j]
+            except KeyError:
+                factors[j] = i[j]
+    product = 1
+    for i in factors.keys():
+        product *= i ** factors[i]
+    return product
+
+
+class CustomFloat:
+    def __init__(self, tupli):
+        _gcd = gcd(tupli)
+        self.tupli = (int(tupli[0]/_gcd), int(tupli[1]/_gcd))
+    def get(self):
+        return self.tupli
+    def prod_with(self, y):
+        return CustomFloat((y.get()[0]*self.get()[0], y.get()[1]*self.get()[1]))
+    def sum_with(self, y):
+        denominator = lcm([y.get()[1], self.get()[1]])
+        numerator = y.get()[0]*(denominator/y.get()[1]) + self.get()[0]*(denominator/self.get()[1])
+        return CustomFloat((numerator, denominator))
+    def subtract_with(self, y):
+        return self.sum_with(y.prod_with(CustomFloat((-1, 1))))
+    def divide_with(self, y):
+        return self.prod_with(CustomFloat((y.get()[1], y.get()[0])))
+
 
 
 if __name__ == "__main__":

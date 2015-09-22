@@ -66,15 +66,15 @@ class UnitTest(TestCase):
         self.assertEquals(circ_number(11), {11})
 
     def test_write_down_number(self):
-        self.assertEquals(len(number_to_string(2)), 3)
-        self.assertEquals(len(number_to_string(11)), 6)
-        self.assertEquals(len(number_to_string(17)), 9)
-        self.assertEquals(len(number_to_string(20)), 6)
-        self.assertEquals(len(number_to_string(36)), 9)
-        self.assertEquals(len(number_to_string(47)), 10)
-        self.assertEquals(number_to_string(100), "onehundred")
-        self.assertEquals(len(number_to_string(342)), 23)
-        self.assertEquals(len(number_to_string(115)), 20)
+        self.assertEquals(len(write_down_number(2)), 3)
+        self.assertEquals(len(write_down_number(11)), 6)
+        self.assertEquals(len(write_down_number(17)), 9)
+        self.assertEquals(len(write_down_number(20)), 6)
+        self.assertEquals(len(write_down_number(36)), 9)
+        self.assertEquals(len(write_down_number(47)), 10)
+        self.assertEquals(write_down_number(100), "onehundred")
+        self.assertEquals(len(write_down_number(342)), 23)
+        self.assertEquals(len(write_down_number(115)), 20)
 
     def test_is_num_sum_of_two_in_list(self):
         self.assertTrue(is_num_sum_of_two_in_list(5, [1, 3, 4]))
@@ -120,6 +120,14 @@ class UnitTest(TestCase):
          self.assertEquals(prod([1, 2, 3, 4]), factorial(4))
          self.assertEquals(prod([1, 2, 3, 4, 5, 6, 7, 8]), factorial(8))
          self.assertEquals(prod([1, 2, 3, 4, 5, 6, 8]), factorial(8)/7)
+
+    def test_find_the_fraction_of(self):
+         self.assertEquals(prod([1, 1, 1, 1]), 1)
+
+
+    def test_find_the_fraction_of(self):
+         self.assertEquals(prod([1, 1, 1, 1]), 1)
+
 
 if __name__ == "__main__":
     pass

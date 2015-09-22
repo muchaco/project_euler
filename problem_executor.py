@@ -4,6 +4,7 @@ from time import time
 from problems import *
 import sys
 
+
 def execute_problem(ith):
     t0 = time()
     try:
@@ -16,4 +17,4 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         execute_problem(sys.argv[1])
     else:
-        execute_problem(45)
+        execute_problem(5)

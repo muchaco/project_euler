@@ -140,6 +140,9 @@ class UnitTest(TestCase):
     def test_problem045(self):
         self.assertEquals(problem45(), 1533776805)
 
+    def test_problem046(self):
+        self.assertEquals(problem46(), 5777)
+
     def test_problem047(self):
         self.assertEquals(problem47(), 134043)
 
@@ -152,7 +155,7 @@ class UnitTest(TestCase):
     def test_problem050(self):
         self.assertEquals(problem50(), 997651)
 
-    def test_problem050(self):
+    def test_problem053(self):
         self.assertEquals(problem53(), 4075)
 
     def test_problem056(self):
