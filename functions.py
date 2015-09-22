@@ -380,6 +380,8 @@ class Primes:
         return factors
     @staticmethod
     def dict_prime_factors_of(number):
+        if number < 0:
+            number = -1 * number
         factors = {}
         i = 2
         while number != 1:
@@ -432,19 +434,6 @@ class OrderedSet(collections.Set):
         return iter(self.d)
 
 
-def infinite_fraction(x, y, max_iter=-1, iteration=0):
-    if max_iter == -1:
-        max_iter = len(y)
-    if max_iter == 0:
-        return x
-    if iteration == 0:
-        return x + 1.0/(infinite_fraction(x, y, max_iter, iteration+1))
-    if iteration == max_iter:
-        return y[iteration % len(y)]
-    else:
-        return y[iteration % len(y)] + 1.0/(infinite_fraction(x, y, max_iter, iteration+1))
-
-
 def find_the_fraction_of(fraction):
     i = 1
     while True:
@@ -493,23 +482,37 @@ def gcd(nums):
     return product
 
 
-class CustomFloat:
+class Fraction:
     def __init__(self, tupli):
         _gcd = gcd(tupli)
         self.tupli = (int(tupli[0]/_gcd), int(tupli[1]/_gcd))
     def get(self):
         return self.tupli
+    def get_value(self):
+        return self.tupli[0]/float(self.tupli[1])
     def prod_with(self, y):
-        return CustomFloat((y.get()[0]*self.get()[0], y.get()[1]*self.get()[1]))
+        return Fraction((y.get()[0]*self.get()[0], y.get()[1]*self.get()[1]))
     def sum_with(self, y):
         denominator = lcm([y.get()[1], self.get()[1]])
         numerator = y.get()[0]*(denominator/y.get()[1]) + self.get()[0]*(denominator/self.get()[1])
-        return CustomFloat((numerator, denominator))
+        return Fraction((numerator, denominator))
     def subtract_with(self, y):
-        return self.sum_with(y.prod_with(CustomFloat((-1, 1))))
+        return self.sum_with(y.prod_with(Fraction((-1, 1))))
     def divide_with(self, y):
-        return self.prod_with(CustomFloat((y.get()[1], y.get()[0])))
+        return self.prod_with(Fraction((y.get()[1], y.get()[0])))
 
+
+def infinite_fraction(x, y, max_iter=-1, iteration=0):
+    if max_iter == -1:
+        max_iter = len(y)
+    if max_iter == 0:
+        return Fraction((x, 1))
+    if iteration == 0:
+        return Fraction((x, 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
+    if iteration == max_iter:
+        return Fraction((y[iteration % len(y)], 1))
+    else:
+        return Fraction((y[iteration % len(y)], 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
 
 
 if __name__ == "__main__":

@@ -849,7 +849,8 @@ def problem56():
 
 # TODO: 65 :)
 def problem65():
-    return sum_of_digits(find_the_fraction_of(x)[0])
+    x = []
+    return sum_of_digits(infinite_fraction(2, [1,2,1,1,4,]).get()[0])
 
 
 def problem67():
