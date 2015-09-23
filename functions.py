@@ -443,7 +443,7 @@ def find_the_fraction_of(fraction):
         i += 1
 
 
-def lcm(nums):
+def _lcm(nums):
     lst = list()
     final_factors = {}
     for i in nums:
@@ -461,7 +461,7 @@ def lcm(nums):
     return product
 
 
-def gcd(nums):
+def _gcd(nums):
     lst = list()
     factors = {}
     for i in nums:
@@ -481,25 +481,38 @@ def gcd(nums):
         product *= i ** factors[i]
     return product
 
+def gcd(x, y):
+   while(y):
+       x, y = y, x % y
+   return x
+
+def lcm(x, y):
+   lcm = (x*y)/gcd(x,y)
+   return lcm
+
 
 class Fraction:
     def __init__(self, tupli):
-        _gcd = gcd(tupli)
-        self.tupli = (int(tupli[0]/_gcd), int(tupli[1]/_gcd))
-    def get(self):
+        self.tupli = tupli
+    def get(self, pretty = True):
+        if pretty:
+            _gcd = gcd(self.tupli[0], self.tupli[1])
+            return (int(self.tupli[0]/_gcd), int(self.tupli[1]/_gcd))
         return self.tupli
     def get_value(self):
         return self.tupli[0]/float(self.tupli[1])
     def prod_with(self, y):
-        return Fraction((y.get()[0]*self.get()[0], y.get()[1]*self.get()[1]))
+        return Fraction((y.get(False)[0]*self.get(False)[0], y.get(False)[1]*self.get(False)[1]))
+    def divide_with(self, y):
+        return Fraction((y.get(False)[1]*self.get(False)[0], y.get(False)[0]*self.get(False)[1]))
     def sum_with(self, y):
-        denominator = lcm([y.get()[1], self.get()[1]])
-        numerator = y.get()[0]*(denominator/y.get()[1]) + self.get()[0]*(denominator/self.get()[1])
+        denominator = lcm(y.get(False)[1], self.get(False)[1])
+        numerator = y.get(False)[0]*(denominator/y.get(False)[1]) + self.get(False)[0]*(denominator/self.get(False)[1])
         return Fraction((numerator, denominator))
     def subtract_with(self, y):
-        return self.sum_with(y.prod_with(Fraction((-1, 1))))
-    def divide_with(self, y):
-        return self.prod_with(Fraction((y.get()[1], y.get()[0])))
+        denominator = lcm(y.get(False)[1], self.get(False)[1])
+        numerator = self.get(False)[0]*(denominator/self.get(False)[1]) - y.get(False)[0]*(denominator/y.get(False)[1])
+        return Fraction((numerator, denominator))
 
 
 def infinite_fraction(x, y, max_iter=-1, iteration=0):
@@ -510,9 +523,9 @@ def infinite_fraction(x, y, max_iter=-1, iteration=0):
     if iteration == 0:
         return Fraction((x, 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
     if iteration == max_iter:
-        return Fraction((y[iteration % len(y)], 1))
+        return Fraction((y[(iteration-1) % len(y)], 1))
     else:
-        return Fraction((y[iteration % len(y)], 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
+        return Fraction((y[(iteration-1) % len(y)], 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
 
 
 if __name__ == "__main__":

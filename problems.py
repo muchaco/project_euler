@@ -849,8 +849,14 @@ def problem56():
 
 # TODO: 65 :)
 def problem65():
-    x = []
-    return sum_of_digits(infinite_fraction(2, [1,2,1,1,4,]).get()[0])
+    x = [1]
+    i = 1
+    while len(x) < 100:
+        x.append(i*2)
+        i += 1
+        x.append(1)
+        x.append(1)
+    return sum_of_digits(infinite_fraction(2, x, 99).get()[0])
 
 
 def problem67():
