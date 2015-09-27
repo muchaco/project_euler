@@ -494,7 +494,7 @@ def lcm(x, y):
 class Fraction:
     def __init__(self, tupli):
         self.tupli = tupli
-    def get(self, pretty = True):
+    def get(self, pretty=True):
         if pretty:
             _gcd = gcd(self.tupli[0], self.tupli[1])
             return (int(self.tupli[0]/_gcd), int(self.tupli[1]/_gcd))
@@ -521,12 +521,108 @@ def infinite_fraction(x, y, max_iter=-1, iteration=0):
     if max_iter == 0:
         return Fraction((x, 1))
     if iteration == 0:
-        return Fraction((x, 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
+        return Fraction((x, 1)).sum_with(Fraction((1, 1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
     if iteration == max_iter:
         return Fraction((y[(iteration-1) % len(y)], 1))
     else:
         return Fraction((y[(iteration-1) % len(y)], 1)).sum_with(Fraction((1,1)).divide_with(infinite_fraction(x, y, max_iter, iteration+1)))
 
+class Graph:
+    def __init__(self, name=""):
+        self.name = name
+        self.list_neighbor = {}
+        self.list_node = {}
+    def add_node(self, node):
+        self.list_node[node] = True
+    def add_edge(self, node, nodebis):
+        try:
+            self.list_neighbor[node].add(nodebis)
+        except KeyError:
+            self.list_neighbor[node] = set()
+            self.list_neighbor[node].add(nodebis)
+    def neighbors(self, node):
+        try:
+            return self.list_neighbor[node]
+        except KeyError:
+            return set()
+    def nodes(self):
+        return self.list_node.keys()
+    def delete_edge(self, node, nodebis):
+        self.list_neighbor[node].discard(nodebis)
+    def delete_node(self, node):
+        del self.list_node[node]
+        try:
+            for nodebis in self.nodes():
+                self.list_neighbor[nodebis].discard(node)
+            del self.list_neighbor[node]
+        except KeyError:
+            return "error"
+
+def roman_to_arabian(rom_number):
+    roman_numbers = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    parsed_number = []
+    for i in rom_number:
+        try:
+            if parsed_number[-1][0] == i:
+                parsed_number[-1][1] += 1
+            else:
+                parsed_number.append([i, 1])
+        except IndexError:
+            parsed_number.append([i, 1])
+    #print rom_number, parsed_number
+    inverses = set([])
+    for i in xrange(1, len(parsed_number)):
+        if roman_numbers[parsed_number[i][0]] > roman_numbers[parsed_number[i-1][0]]:
+            inverses.add(i)
+    #print rom_number, inverses
+    num = 0
+    for i in xrange(len(parsed_number)):
+        if i+1 in inverses:
+            continue
+        if i in inverses:
+            num += roman_numbers[parsed_number[i][0]] * parsed_number[i][1] - roman_numbers[parsed_number[i-1][0]] * parsed_number[i-1][1]
+        else:
+            num += roman_numbers[parsed_number[i][0]] * parsed_number[i][1]
+    return num
+
+
+def arabian_to_roman(num):
+    _len = len(num)
+    if _len == 1:
+        if int(num) < 4:
+            return int(num)*'I'
+        elif int(num) == 4:
+            return 'IV'
+        elif int(num) == 5:
+            return 'V'
+        elif int(num) < 9:
+            return 'V'+(int(num)-5)*'I'
+        else:
+            return 'IX'
+    elif _len == 2:
+        if int(num[0]) < 4:
+            return int(num[0]) * 'X' + arabian_to_roman(num[1])
+        elif int(num[0]) == 4:
+            return 'XL' + arabian_to_roman(num[1])
+        elif int(num[0]) == 5:
+            return 'L' + arabian_to_roman(num[1])
+        elif int(num[0]) < 9:
+            return 'L' + (int(num[0])-5)*'X' + arabian_to_roman(num[1])
+        elif int(num[0]) == 9:
+            return 'XC' + arabian_to_roman(num[1])
+    elif _len == 3:
+        if int(num[0]) < 4:
+            return int(num[0]) * 'C' + arabian_to_roman(num[1:])
+        elif int(num[0]) == 4:
+            return 'CD' + arabian_to_roman(num[1:])
+        elif int(num[0]) == 5:
+            return 'D' + arabian_to_roman(num[1:])
+        elif int(num[0]) < 9:
+            return 'D' + (int(num[0])-5)*'C' + arabian_to_roman(num[1:])
+        elif int(num[0]) == 9:
+            return 'CM' + arabian_to_roman(num[1:])
+    elif _len >= 4:
+        return int(num[0:-3]) * 'M' + arabian_to_roman(num[-3:])
 
 if __name__ == "__main__":
     pass

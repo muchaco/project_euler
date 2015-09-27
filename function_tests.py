@@ -106,27 +106,53 @@ class UnitTest(TestCase):
         self.assertTrue(is_pandigital(12345, 5))
 
     def test_num_x_tupli(self):
-         self.assertEqual(num_x_tupli(9, (1, 2, 3, 4, 5)), 918273645)
-         self.assertEqual(num_x_tupli(192, (1, 2, 3)), 192384576)
+        self.assertEqual(num_x_tupli(9, (1, 2, 3, 4, 5)), 918273645)
+        self.assertEqual(num_x_tupli(192, (1, 2, 3)), 192384576)
 
     def test_num_length(self):
-         self.assertEquals(num_len(1234), 4)
-         self.assertEquals(num_len(124), 3)
-         self.assertEquals(num_len(23400), 5)
-         self.assertEquals(num_len(0), 1)
+        self.assertEquals(num_len(1234), 4)
+        self.assertEquals(num_len(124), 3)
+        self.assertEquals(num_len(23400), 5)
+        self.assertEquals(num_len(0), 1)
 
     def test_prod(self):
-         self.assertEquals(prod([1, 1, 1, 1]), 1)
-         self.assertEquals(prod([1, 2, 3, 4]), factorial(4))
-         self.assertEquals(prod([1, 2, 3, 4, 5, 6, 7, 8]), factorial(8))
-         self.assertEquals(prod([1, 2, 3, 4, 5, 6, 8]), factorial(8)/7)
+        self.assertEquals(prod([1, 1, 1, 1]), 1)
+        self.assertEquals(prod([1, 2, 3, 4]), factorial(4))
+        self.assertEquals(prod([1, 2, 3, 4, 5, 6, 7, 8]), factorial(8))
+        self.assertEquals(prod([1, 2, 3, 4, 5, 6, 8]), factorial(8)/7)
 
     def test_find_the_fraction_of(self):
-         self.assertEquals(prod([1, 1, 1, 1]), 1)
+        self.assertEquals(prod([1, 1, 1, 1]), 1)
 
 
     def test_find_the_fraction_of(self):
-         self.assertEquals(prod([1, 1, 1, 1]), 1)
+        self.assertEquals(prod([1, 1, 1, 1]), 1)
+
+
+    def test_roman_to_arabian(self):
+        self.assertEquals(roman_to_arabian("III"), 3)
+        self.assertEquals(roman_to_arabian("IX"), 9)
+        self.assertEquals(roman_to_arabian("X"), 10)
+        self.assertEquals(roman_to_arabian("XXXXIIIIIIIII"), 49)
+        self.assertEquals(roman_to_arabian("XXXXVIIII"), 49)
+        self.assertEquals(roman_to_arabian("XXXXIX"), 49)
+        self.assertEquals(roman_to_arabian("XLIIIIIIIII"), 49)
+        self.assertEquals(roman_to_arabian("XLVIIII"), 49)
+        self.assertEquals(roman_to_arabian("XLIX"), 49)
+
+
+    def test_arabian_to_roman(self):
+        self.assertEquals(arabian_to_roman('10'), 'X')
+        self.assertEquals(arabian_to_roman('20'), 'XX')
+        self.assertEquals(arabian_to_roman('22'), 'XXII')
+        self.assertEquals(arabian_to_roman('24'), 'XXIV')
+        self.assertEquals(arabian_to_roman('1'), 'I')
+        self.assertEquals(arabian_to_roman('2'), 'II')
+        self.assertEquals(roman_to_arabian(arabian_to_roman('1932')), 1932)
+        self.assertEquals(roman_to_arabian(arabian_to_roman('19324')), 19324)
+        self.assertEquals(roman_to_arabian(arabian_to_roman('124')), 124)
+        self.assertEquals(roman_to_arabian(arabian_to_roman('999')), 999)
+
 
 
 if __name__ == "__main__":

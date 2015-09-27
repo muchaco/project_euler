@@ -847,7 +847,6 @@ def problem56():
     return max(digit_sums)
 
 
-# TODO: 65 :)
 def problem65():
     x = [1]
     i = 1
@@ -864,15 +863,31 @@ def problem67():
     return max_path_sum("files/p067_triangle.txt")
 
 
-# TODO: 79 :)
 def problem79():
-    pass
+    with open("files/p079_keylog.txt") as f:
+        rules = f.read().split("\n")
+    G = Graph()
+    for rule in rules:
+        G.add_node(rule[0])
+        G.add_node(rule[1])
+        G.add_node(rule[2])
+        G.add_edge(rule[0], rule[1])
+        G.add_edge(rule[1], rule[2])
+    answer = ""
+    while len(G.nodes()) != 0:
+        _min = min(G.nodes(), key=lambda i: len(G.neighbors(i)))
+        answer = _min + answer
+        G.delete_node(_min)
+    return int(answer)
 
 
-# TODO: 89 :)
 def problem89():
-    pass
-
+    with open("files/p089_roman.txt") as f:
+        roman_numbers = f.read().split("\n")
+    total_length = sum([len(i) for i in roman_numbers])
+    arabian_numbers = [roman_to_arabian(i) for i in roman_numbers]
+    minimal_roman_numbers = [arabian_to_roman(str(i)) for i in arabian_numbers]
+    return total_length - sum([len(i) for i in minimal_roman_numbers])
 
 # TODO: 92 :)
 def problem92():
