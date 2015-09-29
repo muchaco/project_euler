@@ -344,10 +344,14 @@ class Primes:
         for i in range(2, length):
             if self.sieve[i]:
                 self.primes.append(i)
-    def is_prime(self, n):
+    def is_prime(self, n, strict=False):
         if n >= self.length:
+            if strict:
+                return False
             return Primes._is_prime(n)
-        return self.sieve[n]
+        if not is_integer(n):
+            return False
+        return self.sieve[int(n)]
     def next_prime(self, n):
         if n >= self.length:
             return Primes._next_prime(n)
@@ -623,6 +627,34 @@ def arabian_to_roman(num):
             return 'CM' + arabian_to_roman(num[1:])
     elif _len >= 4:
         return int(num[0:-3]) * 'M' + arabian_to_roman(num[-3:])
+
+
+number_chains = {1: False, 89: True}
+next_in_chain = lambda x: sum([int(i)**2 for i in str(x)])
+
+def get_chain(i):
+    appeared_nums = set()
+    while not number_chains.has_key(i):
+        appeared_nums.add(i)
+        i = next_in_chain(i)
+    for j in appeared_nums:
+        number_chains[j] = number_chains[i]
+    return number_chains[i]
+
+
+def is_geometric_seq(lst):
+    _len = len(lst)
+    if _len > 2:
+        q = lst[1]/float(lst[0])
+        for i in xrange(2, _len):
+            if lst[i]/float(lst[i-1]) != q:
+                return False
+        return True
+    else:
+        return True
+
+
+is_integer = lambda x: int(x) == x
 
 if __name__ == "__main__":
     pass

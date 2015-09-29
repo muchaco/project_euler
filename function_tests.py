@@ -153,6 +153,13 @@ class UnitTest(TestCase):
         self.assertEquals(roman_to_arabian(arabian_to_roman('124')), 124)
         self.assertEquals(roman_to_arabian(arabian_to_roman('999')), 999)
 
+    def test_is_geometric_seq(self):
+        self.assertTrue(is_geometric_seq([1,2,4]))
+        self.assertTrue(is_geometric_seq([1,2,4,8]))
+        self.assertTrue(is_geometric_seq([3,6,12,24,48]))
+        self.assertFalse(is_geometric_seq([3,6,12,14,48]))
+        self.assertFalse(is_geometric_seq([3,6,12,24,49]))
+        self.assertFalse(is_geometric_seq([2,6,12,24,48]))
 
 
 if __name__ == "__main__":

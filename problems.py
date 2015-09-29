@@ -889,9 +889,36 @@ def problem89():
     minimal_roman_numbers = [arabian_to_roman(str(i)) for i in arabian_numbers]
     return total_length - sum([len(i) for i in minimal_roman_numbers])
 
-# TODO: 92 :)
+
 def problem92():
-    pass
+    _max = 10*10**6
+    count = 0
+    for i in xrange(2, _max):
+        if get_chain(i):
+            count += 1
+    return count
+
+
+def problem518():
+    prime_obj = Primes(10**8)
+    primes = prime_obj.get_primes()
+    _len = len(primes)
+    tuples = []
+    for i in xrange(_len):
+        _i = prime_obj.ith_prime(i)
+        for j in xrange(i+1, _len):
+            _j = prime_obj.ith_prime(j)
+            q = (_j+1)/float(_i+1)
+            potential_prime = (_j+1)*q-1
+            if potential_prime > primes[-1]:
+                break
+            if prime_obj.is_prime(potential_prime, True):
+                tuples.append((_i, _j, potential_prime))
+        else:
+            continue
+    #print tuples
+    _sum = sum([sum(i) for i in tuples])
+    return _sum
 
 if __name__ == "__main__":
     pass
