@@ -269,7 +269,7 @@ def problem17():
 
 def problem18():
     # Find the maximum total from top to bottom of the triangle in the p018_triangle.txt file
-    return max_path_sum("files/p018_triangle.txt")
+    return max_path_sum_in_triangle("files/p018_triangle.txt")
 
 
 def problem19():
@@ -860,7 +860,7 @@ def problem65():
 
 def problem67():
     # Find the maximum total from top to bottom of the triangle in the p067_triangle.txt file
-    return max_path_sum("files/p067_triangle.txt")
+    return max_path_sum_in_triangle("files/p067_triangle.txt")
 
 
 def problem79():
@@ -879,6 +879,10 @@ def problem79():
         answer = _min + answer
         G.delete_node(_min)
     return int(answer)
+
+
+def problem81():
+    max_path_sum_in_matrix("files/_.txt")
 
 
 def problem89():
@@ -900,7 +904,7 @@ def problem92():
 
 
 def problem518():
-    prime_obj = Primes(10**8)
+    prime_obj = Primes(1000)
     primes = prime_obj.get_primes()
     _len = len(primes)
     tuples = []
@@ -908,8 +912,7 @@ def problem518():
         _i = prime_obj.ith_prime(i)
         for j in xrange(i+1, _len):
             _j = prime_obj.ith_prime(j)
-            q = (_j+1)/float(_i+1)
-            potential_prime = (_j+1)*q-1
+            potential_prime = (_j+1)*(_j+1)/float(_i+1)-1
             if potential_prime > primes[-1]:
                 break
             if prime_obj.is_prime(potential_prime, True):

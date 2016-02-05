@@ -1,8 +1,8 @@
-__author__ = 'muchaco'
-
 from time import time
 from problems import *
 import sys
+
+__author__ = 'muchaco'
 
 
 def execute_problem(ith):
@@ -17,4 +17,4 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         execute_problem(sys.argv[1])
     else:
-        execute_problem(518)
+        execute_problem(81)
