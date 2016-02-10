@@ -149,7 +149,7 @@ def is_num_sum_of_two_in_list(n, lst, distinct_values=True):
 
 def max_path_sum_in_triangle(file_name):
     with open(file_name) as f:
-        adj = f.read().split("\n")
+        adj = f.read().splitlines()
         adj = [[int(j) for j in i.split(" ")] + [0] for i in adj]
     # parse_triangle(input, adj)
     for i in xrange(1, len(adj)):
@@ -160,7 +160,7 @@ def max_path_sum_in_triangle(file_name):
 
 def max_path_sum_in_matrix(file_name):
     with open(file_name) as f:
-        adj = f.read().split("\n")
+        adj = f.read().splitlines()
         adj = [[int(j) for j in i.split(",")] for i in adj]
         print(adj)
     # parse_matrix(input, adj)

@@ -865,7 +865,7 @@ def problem67():
 
 def problem79():
     with open("files/p079_keylog.txt") as f:
-        rules = f.read().split("\n")
+        rules = f.read().splitlines()
     G = Graph()
     for rule in rules:
         G.add_node(rule[0])
@@ -887,7 +887,7 @@ def problem81():
 
 def problem89():
     with open("files/p089_roman.txt") as f:
-        roman_numbers = f.read().split("\n")
+        roman_numbers = f.read().splitlines()
     total_length = sum([len(i) for i in roman_numbers])
     arabian_numbers = [roman_to_arabian(i) for i in roman_numbers]
     minimal_roman_numbers = [arabian_to_roman(str(i)) for i in arabian_numbers]
