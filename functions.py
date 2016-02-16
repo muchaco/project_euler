@@ -356,34 +356,41 @@ class Primes:
         for i in range(2, length):
             if self.sieve[i]:
                 self.primes.append(i)
+
     def is_prime(self, n, strict=False):
         if n >= self.length:
             if strict:
                 return False
-            return Primes._is_prime(n)
+            return Primes.static_is_prime(n)
         if not is_integer(n):
             return False
         return self.sieve[int(n)]
+
     def next_prime(self, n):
         if n >= self.length:
-            return Primes._next_prime(n)
+            return Primes.static_next_prime(n)
         i = n
         while self.sieve[i] == 0:
             if i >= self.length:
-                return Primes._next_prime(i)
+                return Primes.static_next_prime(i)
             i += 1
         return i
+
     def get_primes(self):
         return self.primes
+
     def ith_prime(self, i):
         try:
             return self.primes[i]
         except IndexError:
-            return Primes._ith_prime(i)
+            return Primes.static_ith_prime(i)
+
     def is_all_prime(self, num_list):
         return all(self.is_prime(j) for j in num_list)
+
     def is_truncatable_prime(self, prime):
         return self.is_all_prime(make_truncatable_list(prime))
+
     @staticmethod
     def set_prime_factors_of(number):
         factors = set()
@@ -394,6 +401,7 @@ class Primes:
                 number /= i
             i += 1
         return factors
+
     @staticmethod
     def dict_prime_factors_of(number):
         if number < 0:
@@ -409,31 +417,36 @@ class Primes:
                 number /= i
             i += 1
         return factors
+
     @staticmethod
-    def _is_prime(n):
+    def static_is_prime(n):
         if n < 2:
             return False
         if n % 2 == 0 and n > 2:
             return False
         return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
+
     @staticmethod
-    def _next_prime(number):
+    def static_next_prime(number):
         number += 1
-        while not Primes._is_prime(number):
+        while not Primes.static_is_prime(number):
             number += 1
         return number
+
     @staticmethod
-    def _ith_prime(number):
+    def static_ith_prime(number):
         primes = [2]
         while len(primes) < number:
-            primes.append(Primes._next_prime(primes[-1]))
+            primes.append(Primes.static_next_prime(primes[-1]))
         return primes[-1]
+
     @staticmethod
-    def _is_all_prime(num_list):
+    def static_is_all_prime(num_list):
         return all(Primes.is_prime(j) for j in num_list)
+
     @staticmethod
-    def _is_truncatable_prime(prime):
-        return Primes._is_all_prime(make_truncatable_list(prime))
+    def static_is_truncatable_prime(prime):
+        return Primes.static_is_all_prime(make_truncatable_list(prime))
 
 
 class OrderedSet(collections.Set):
@@ -459,7 +472,7 @@ def find_the_fraction_of(fraction):
         i += 1
 
 
-def _lcm(nums):
+def lcm_of_list(nums):
     lst = list()
     final_factors = {}
     for i in nums:
@@ -477,7 +490,7 @@ def _lcm(nums):
     return product
 
 
-def _gcd(nums):
+def gcd_of_list(nums):
     lst = list()
     factors = {}
     for i in nums:

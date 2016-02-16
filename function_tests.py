@@ -27,11 +27,11 @@ class UnitTest(TestCase):
         self.assertTrue(is_palindrome(1), True)
 
     def test_is_prime(self):
-        self.assertFalse(Primes._is_prime(9))
-        self.assertFalse(Primes._is_prime(4))
-        self.assertTrue(Primes._is_prime(2))
-        self.assertTrue(Primes._is_prime(23))
-        self.assertTrue(Primes._is_prime(41))
+        self.assertFalse(Primes.static_is_prime(9))
+        self.assertFalse(Primes.static_is_prime(4))
+        self.assertTrue(Primes.static_is_prime(2))
+        self.assertTrue(Primes.static_is_prime(23))
+        self.assertTrue(Primes.static_is_prime(41))
 
     def test_num_of_divisors(self):
         self.assertEquals(num_of_divisors(15, True), 4)
