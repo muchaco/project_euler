@@ -1,10 +1,8 @@
-__author__ = 'muchaco'
-
-from unittest import TestCase
+import unittest
 from problems import *
 
 
-class UnitTest(TestCase):
+class UnitTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(UnitTest, self).__init__(*args, **kwargs)
 
@@ -164,5 +162,5 @@ class UnitTest(TestCase):
     def test_problem067(self):
         self.assertEquals(problem67(), 7273)
 
-if __name__ == "__main__":
-    pass
+if __name__ == '__main__':
+    unittest.main()

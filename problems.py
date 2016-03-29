@@ -1,13 +1,10 @@
-import functions
-
-
-__author__ = 'muchaco'
+from funcs import *
 
 
 def problem1():
     # If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these
     # multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
-    return functions.sum_of_multiples([3, 5], 1000)
+    return common.sum_of_multiples([3, 5], 1000)
 
 
 def problem2():
@@ -24,7 +21,7 @@ def problem2():
 def problem3():
     # The prime factors of 13195 are 5, 7, 13 and 29.
     # What is the largest prime factor of the number 600851475143 ?
-    return max(functions.Primes.set_prime_factors_of(600851475143))
+    return max(Primes.Primes.set_prime_factors_of(600851475143))
 
 
 def problem4():
@@ -33,7 +30,7 @@ def problem4():
     palindromes = []
     for i in xrange(10**3-1, 10**(3-1)-1, -1):
         for j in xrange(10**3-1, i-1, -1):
-            if functions.is_palindrome(i*j):
+            if common.is_palindrome(i*j):
                 palindromes.append(i*j)
     return max(palindromes)
 
@@ -41,7 +38,7 @@ def problem4():
 def problem5():
     # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
     nums = range(2, 21)
-    return functions.lcm_of_list(nums)
+    return divisors.lcm_of_list(nums)
 
 
 def problem6():
@@ -53,7 +50,7 @@ def problem6():
 def problem7():
     # By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
     # What is the 10001st prime number?
-    return functions.Primes.static_ith_prime(10001)
+    return Primes.Primes.static_ith_prime(10001)
 
 
 def problem8():
@@ -70,7 +67,7 @@ def problem8():
              "7654568284891288314260769004224219022671055626321111109370544217506941658960408071984038509624554443629" \
              "8123098787992724428490918884580156166097919133875499200524063689912560717606058861164671094050775410022" \
              "5698315520005593572972571636269561882670428252483600823257530420752963450"
-    return functions.greatest_product_in(number, 13)
+    return common.greatest_product_in(number, 13)
 
 
 def problem9():
@@ -91,7 +88,7 @@ def problem9():
 
 def problem10():
     # Find the sum of all the primes below two million.
-    prime_obj = functions.Primes(2*10**6+1)
+    prime_obj = Primes.Primes(2 * 10 ** 6 + 1)
     return sum(prime_obj.get_primes())
 
 
@@ -121,7 +118,7 @@ def problem11():
         if i % 20 == 19:
             matrix.append(one_line[:])
             one_line = []
-    return max([functions.start_from(i, j, matrix) for i in xrange(20) for j in xrange(20)])
+    return max([common.start_from(i, j, matrix) for i in xrange(20) for j in xrange(20)])
 
 
 def problem12():
@@ -131,7 +128,7 @@ def problem12():
     # What is the value of the first triangle number to have over five hundred divisors?
     over = 500
     triangle_nums = [1]
-    while functions.num_of_divisors(triangle_nums[-1], True) < over + 1:
+    while divisors.num_of_divisors(triangle_nums[-1], True) < over + 1:
         triangle_nums.append(triangle_nums[-1] + len(triangle_nums) + 1)
     return triangle_nums[-1]
 
@@ -244,35 +241,34 @@ def problem13():
 
 def problem14():
     # Which starting number, under one million, produces the longest chain with Collatz problem
+    collatz_chain = NumberChain.NumberChain(lambda num: num/2 if num % 2 == 0 else 3*num+1, [1])
     maximum = 10**6
     for i in xrange(1, maximum):
-        try:
-            functions.collatz[i]
-        except KeyError:
-            functions.get_collatz(i)
-    return max([i for i in xrange(1, maximum)], key=lambda n: functions.collatz[n])
+        if i not in collatz_chain.lengths:
+            collatz_chain.length(i)
+    return max([i for i in xrange(1, maximum)], key=lambda n: collatz_chain.lengths[n])
 
 
 def problem15():
     # Starting in the top left corner of a 2x2 grid, and only being able to move to the right and down, there are
     # exactly 6 routes to the bottom right corner. How many such routes are there through a 20x20 grid?
-    return functions.ncr(2 * 20, 20)
+    return common.ncr(2 * 20, 20)
 
 
 def problem16():
     # What is the sum of the digits of the number 2**1000?
-    return functions.sum_of_digits(2**1000)
+    return common.sum_of_digits(2 ** 1000)
 
 
 def problem17():
     # If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words,
     # how many letters would be used?
-    return sum([len(functions.write_down_number(i)) for i in xrange(1, 1001)])
+    return sum([len(common.write_down_number(i)) for i in xrange(1, 1001)])
 
 
 def problem18():
     # Find the maximum total from top to bottom of the triangle in the p018_triangle.txt file
-    return functions.max_path_sum_in_triangle("files/p018_triangle.txt")
+    return common.max_path_sum_in_triangle("files/p018_triangle.txt")
 
 
 def problem19():
@@ -301,12 +297,12 @@ def problem19():
 
 def problem20():
     # Find the sum of the digits in the number 100!
-    return functions.sum_of_digits(functions.factorial(100))
+    return common.sum_of_digits(common.factorial(100))
 
 
 def problem21():
     # Evaluate the sum of all the amicable numbers under 10000.
-    return sum([i if functions.is_amicable(i) else 0 for i in xrange(0, 10001)])
+    return sum([i if divisors.is_amicable(i) else 0 for i in xrange(0, 10001)])
 
 
 def problem22():
@@ -340,9 +336,9 @@ def problem23():
     abundant = list()
     result = set()
     for i in xrange(1, 28124):
-        if not functions.is_num_sum_of_two_in_list(i, abundant, False):
+        if not common.is_num_sum_of_two_in_list(i, abundant, False):
             result.add(i)
-        if functions.is_abundant_num(i):
+        if divisors.is_abundant_num(i):
             abundant.append(i)
     return sum(result)
 
@@ -366,7 +362,7 @@ def problem26():
     # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
     lengths = [0]
     for i in xrange(1, 1001):
-        lengths.append(functions.length_of_recurring_cycle(i))
+        lengths.append(common.length_of_recurring_cycle(i))
     return lengths.index(max(lengths))
 
 
@@ -379,7 +375,7 @@ def problem27():
     for i in xrange(-1000, 1001):
         for j in xrange(-1000, 1001):
             k = 0
-            while functions.Primes.static_is_prime(quadratic_expression(i, j)(k)):
+            while Primes.Primes.static_is_prime(quadratic_expression(i, j)(k)):
                 k += 1
             if k > maximum:
                 maximum = k
@@ -416,7 +412,7 @@ def problem30():
     # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
     _sum = 0
     for i in xrange(3, 1000000):
-        fact_sum = functions.sum_of_digits(i, lambda n: n**5)
+        fact_sum = common.sum_of_digits(i, lambda n: n ** 5)
         if i == fact_sum:
             _sum += fact_sum
     return _sum
@@ -458,12 +454,12 @@ def problem32():
     for i in xrange(10):
         for j in xrange(1001, 10000):
             prod = i*j
-            if functions.is_pandigital(str(i)+str(j)+str(prod), 9):
+            if common.is_pandigital(str(i)+str(j)+str(prod), 9):
                 _sum.add(prod)
     for i in xrange(11, 100):
         for j in xrange(101, 1000):
             prod = i*j
-            if functions.is_pandigital(str(i)+str(j)+str(prod), 9):
+            if common.is_pandigital(str(i)+str(j)+str(prod), 9):
                 _sum.add(prod)
     return sum(_sum)
 
@@ -503,17 +499,17 @@ def problem33():
 def problem34():
     # Find the sum of all numbers which are equal to the sum of the factorial of their digits.
     factorials = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
-    return sum([i if i == functions.sum_of_digits(i, lambda n: factorials[n]) else 0 for i in xrange(3, 10000000)])
+    return sum([i if i == common.sum_of_digits(i, lambda n: factorials[n]) else 0 for i in xrange(3, 10000000)])
 
 
 def problem35():
     # How many circular primes are there below one million?
     circ_primes = set([])
-    prime_obj = functions.Primes(10**6)
+    prime_obj = Primes.Primes(10 ** 6)
     for i in prime_obj.get_primes():
         if i in circ_primes:
             continue
-        temp_set = functions.circ_number(i)
+        temp_set = common.circ_number(i)
         if all(prime_obj.is_prime(j) for j in temp_set):
             circ_primes |= temp_set
     return len(circ_primes)
@@ -524,17 +520,17 @@ def problem36():
     _sum = 0
     decimal_palindromes = []
     for i in xrange(1, 1000000, 2):
-        if functions.is_palindrome(i):
+        if common.is_palindrome(i):
             decimal_palindromes.append(i)
     for i in decimal_palindromes:
-        if functions.is_palindrome(functions.dec_to_bin(i)):
+        if common.is_palindrome(bin(i)[2:]):
             _sum += i
     return _sum
 
 
 def problem37():
     # Find the sum of the only eleven primes that are both truncatable from left to right and right to left.
-    prime_obj = functions.Primes(1000000)
+    prime_obj = Primes.Primes(1000000)
     truncatable_primes = set([])
     i = 11
     while len(truncatable_primes) != 11:
@@ -557,8 +553,8 @@ def problem38():
     max_value = 0
     for i in possible_nums:
         for j in possible_tuples:
-            act_value = functions.num_x_tupli(i, j)
-            if functions.is_pandigital(act_value, 9):
+            act_value = common.num_x_tupli(i, j)
+            if common.is_pandigital(act_value, 9):
                 if max_value < act_value:
                     max_value = act_value
     return max_value
@@ -591,18 +587,18 @@ def problem40():
     i = 1
     while num_length < 1000000:
         str_num += str(i)
-        num_length += functions.num_len(i)
+        num_length += common.num_len(i)
         i += 1
-    return functions.prod([int(str_num[i]) for i in milestones])
+    return common.prod([int(str_num[i]) for i in milestones])
 
 
 def problem41():
     # What is the largest n-digit pandigital prime that exists?
     lst = []
     for i in xrange(2, 10):
-        lst += functions.permutations(functions.default_pandigital(i))
+        lst += common.permutations(common.default_pandigital(i))
     for i in range(len(lst)-1, -1, -1):
-        if functions.Primes.static_is_prime(int(lst[i])):
+        if Primes.Primes.static_is_prime(int(lst[i])):
             return int(lst[i])
 
 
@@ -618,7 +614,7 @@ def problem42():
         words = [i.strip("\"") for i in line.split(",")]
     triangle_word_count = 0
     for j in words:
-        if functions.is_triangle_word(j):
+        if common.is_triangle_word(j):
             triangle_word_count += 1
     return triangle_word_count
 
@@ -643,7 +639,7 @@ def problem43():
         elif int(i[1:4]) % 2 != 0:
             return False
         return True
-    perm = functions.permutations("0123456789")
+    perm = common.permutations("0123456789")
     _sum = 0
     for i in perm:
         if i[0] != 0:
@@ -655,7 +651,7 @@ def problem43():
 # TODO: problem44
 def problem44():
     p_n = lambda n: n*(3*n-1)/2
-    is_pentagonal = lambda n: not (functions.math.sqrt(24*n+1)+1) % 6
+    is_pentagonal = lambda n: not (common.math.sqrt(24 * n + 1) + 1) % 6
 
     i = 1
     while True:
@@ -700,14 +696,14 @@ def problem45():
 
 def problem46():
     _max = 10000
-    prime_obj = functions.Primes(_max)
+    prime_obj = Primes.Primes(_max)
     prime_list = prime_obj.get_primes()
     for i in xrange(9, _max, 2):
         if prime_obj.is_prime(i):
             continue
         else:
             for j in [l for l in prime_list if l < i]:
-                for k in xrange(1, int(functions.math.sqrt(i))+1):
+                for k in xrange(1, int(common.math.sqrt(i))+1):
                     if j+2*(k**2) == i:
                         break
                 else:
@@ -726,7 +722,7 @@ def problem47():
     #  645 = 3 x 5 x 43
     #  646 = 2 x 17 x 19.
     # Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?
-    prime_obj = functions.Primes(200000)
+    prime_obj = Primes.Primes(200000)
 
     def custom_prime_factors_of(number):
         j = 0
@@ -735,7 +731,7 @@ def problem47():
             return 1
         while number != 1 and _len < 5:
             jth_prime = prime_obj.ith_prime(j)
-            if jth_prime > functions.math.sqrt(number):
+            if jth_prime > common.math.sqrt(number):
                 return _len
             if number % jth_prime == 0:
                 _len += 1
@@ -761,7 +757,7 @@ def problem48():
     mod = 10**10
     for i in xrange(1, 1000):
         # _sum += i**i % 10
-        _sum += functions.power_mod(i, i, mod)
+        _sum += common.power_mod(i, i, mod)
         _sum %= mod
     return _sum
 
@@ -772,21 +768,21 @@ def problem49():
     # There are no arithmetic sequences made up of three 1-, 2-, or 3-digit primes, exhibiting this property, but there
     # is one other 4-digit increasing sequence.
     # What 12-digit number do you form by concatenating the three terms in this sequence?
-    prime_obj = functions.Primes(10000)
-    sorted_primes = [elem for elem in prime_obj.get_primes() if functions.num_len(elem) == 4]
+    prime_obj = Primes.Primes(10000)
+    sorted_primes = [elem for elem in prime_obj.get_primes() if common.num_len(elem) == 4]
     arithmetic = list()
     length = len(sorted_primes)
     for i in xrange(length):
         for j in xrange(i+1, length):
             third = sorted_primes[j] + sorted_primes[j] - sorted_primes[i]
             if prime_obj.is_prime(third) and \
-                    functions.varieties(sorted_primes[i], sorted_primes[j]) and \
-                    functions.varieties(sorted_primes[i], third) and \
-                    functions.varieties(sorted_primes[j], third):
+                    common.varieties(sorted_primes[i], sorted_primes[j]) and \
+                    common.varieties(sorted_primes[i], third) and \
+                    common.varieties(sorted_primes[j], third):
                 arithmetic.append(
                     (sorted_primes[i], sorted_primes[j], sorted_primes[j] + sorted_primes[j] - sorted_primes[i])
                 )
-    return functions.num_x_tupli(1, arithmetic[-1])
+    return common.num_x_tupli(1, arithmetic[-1])
 
 
 def problem50():
@@ -796,7 +792,7 @@ def problem50():
     # The longest sum of consecutive primes below one-thousand that adds to a prime, contains 21 terms, and is equal
     # to 953.
     # Which prime, below one-million, can be written as the sum of the most consecutive primes?
-    prime_obj = functions.Primes(1000000)
+    prime_obj = Primes.Primes(1000000)
     sorted_primes = prime_obj.get_primes()
     my_max = 0
     max_prime = 0
@@ -847,7 +843,7 @@ def problem56():
     digit_sums = list()
     for a in xrange(1, 100):
         for b in xrange(1, 100):
-            digit_sums.append(functions.sum_of_digits(a**b))
+            digit_sums.append(common.sum_of_digits(a ** b))
     return max(digit_sums)
 
 
@@ -859,18 +855,18 @@ def problem65():
         i += 1
         x.append(1)
         x.append(1)
-    return functions.sum_of_digits(functions.infinite_fraction(2, x, 99).get()[0])
+    return common.sum_of_digits(Fraction.infinite_fraction(2, x, 99).get()[0])
 
 
 def problem67():
     # Find the maximum total from top to bottom of the triangle in the p067_triangle.txt file
-    return functions.max_path_sum_in_triangle("files/p067_triangle.txt")
+    return common.max_path_sum_in_triangle("files/p067_triangle.txt")
 
 
 def problem79():
     with open("files/p079_keylog.txt") as f:
         rules = f.read().splitlines()
-    g = functions.Graph()
+    g = Graph.Graph()
     for rule in rules:
         g.add_node(rule[0])
         g.add_node(rule[1])
@@ -886,29 +882,30 @@ def problem79():
 
 
 def problem81():
-    functions.max_path_sum_in_matrix("files/_.txt")
+    common.max_path_sum_in_matrix("files/_.txt")
 
 
 def problem89():
     with open("files/p089_roman.txt") as f:
         roman_numbers = f.read().splitlines()
     total_length = sum([len(i) for i in roman_numbers])
-    arabian_numbers = [functions.roman_to_arabian(i) for i in roman_numbers]
-    minimal_roman_numbers = [functions.arabian_to_roman(str(i)) for i in arabian_numbers]
+    arabian_numbers = [roman_numerals.roman_to_arabian(i) for i in roman_numbers]
+    minimal_roman_numbers = [roman_numerals.arabian_to_roman(str(i)) for i in arabian_numbers]
     return total_length - sum([len(i) for i in minimal_roman_numbers])
 
 
 def problem92():
+    p92_chain = NumberChain.NumberChain(lambda x: sum([int(i)**2 for i in str(x)]), [1, 89])
     _max = 10*10**6
     count = 0
     for i in xrange(2, _max):
-        if functions.get_chain(i):
+        if p92_chain.end_point(i) == 89:
             count += 1
     return count
 
 
 def problem518():
-    prime_obj = functions.Primes(1000)
+    prime_obj = Primes.Primes(1000)
     primes = prime_obj.get_primes()
     _len = len(primes)
     tuples = []
@@ -923,9 +920,9 @@ def problem518():
                 tuples.append((_i, _j, potential_prime))
         else:
             continue
-    # print tuples
     _sum = sum([sum(i) for i in tuples])
     return _sum
+
 
 if __name__ == "__main__":
     pass

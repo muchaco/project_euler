@@ -1,10 +1,10 @@
-__author__ = 'muchaco'
+import unittest
+from funcs.common import *
+from funcs.divisors import *
+from funcs.roman_numerals import *
+from funcs.Primes import *
 
-from unittest import TestCase
-from functions import *
-
-
-class UnitTest(TestCase):
+class UnitTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(UnitTest, self).__init__(*args, **kwargs)
 
@@ -124,11 +124,6 @@ class UnitTest(TestCase):
     def test_find_the_fraction_of(self):
         self.assertEquals(prod([1, 1, 1, 1]), 1)
 
-
-    def test_find_the_fraction_of(self):
-        self.assertEquals(prod([1, 1, 1, 1]), 1)
-
-
     def test_roman_to_arabian(self):
         self.assertEquals(roman_to_arabian("III"), 3)
         self.assertEquals(roman_to_arabian("IX"), 9)
@@ -139,7 +134,6 @@ class UnitTest(TestCase):
         self.assertEquals(roman_to_arabian("XLIIIIIIIII"), 49)
         self.assertEquals(roman_to_arabian("XLVIIII"), 49)
         self.assertEquals(roman_to_arabian("XLIX"), 49)
-
 
     def test_arabian_to_roman(self):
         self.assertEquals(arabian_to_roman('10'), 'X')
@@ -162,5 +156,5 @@ class UnitTest(TestCase):
         self.assertFalse(is_geometric_seq([2,6,12,24,48]))
 
 
-if __name__ == "__main__":
-    pass
+if __name__ == '__main__':
+    unittest.main()
